@@ -1,0 +1,13 @@
+:host {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.login__container {
+    width: 300px;
+    padding: 32px;
+    border-radius: 8px;
+    background-color: #F8F8F8;
+}

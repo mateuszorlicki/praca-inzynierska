@@ -1,0 +1,23 @@
+<div class="login__container">
+  <h3>Zaloguj się</h3>
+  <form [formGroup]="loginForm">
+    <div class="form-group">
+      <label for="loginInput">Adres email</label>
+      <input type="email" class="form-control" [class.is-invalid]="!loginForm.controls.login.valid" id="loginInput" aria-describedby="emailHelp" formControlName="login">
+    </div>
+    <div class="form-group">
+      <label for="passwordInput">Hasło</label>
+      <input type="password" class="form-control" [class.is-invalid]="!loginForm.controls.password.valid" id="passwordInput" formControlName="password">
+    </div>
+    <div *ngIf="registerForm" class="form-group">
+      <label for="fullnameInput">Imię i nazwisko</label>
+      <input type="text" class="form-control" [class.is-invalid]="!loginForm.controls.login.valid" id="fullnameInput" formControlName="fullname">
+    </div>
+    <button (click)="registerForm? toggleRegisterForm() : loginWithEmailAndPassword()" class="btn btn-primary btn-block">Zaloguj</button>
+    <button (click)="registerForm? registerWithEmailAndPassword() : toggleRegisterForm()"  class="btn btn-outline-primary btn-block">Zarejestruj</button>
+    <button class="btn btn-secondary btn-block" (click)="authService.loginWithGoogle()">
+      Zaloguj z Google
+    </button>
+  </form>
+
+  </div>
