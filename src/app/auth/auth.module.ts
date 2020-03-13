@@ -4,10 +4,11 @@ import { LoginComponent } from './components/login/login.component';
 import { GymFirebaseModule } from '../gym-firebase/gym-firebase.module';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginRequiredComponent } from './components/login-required/login-required.component';
 
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, LoginRequiredComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

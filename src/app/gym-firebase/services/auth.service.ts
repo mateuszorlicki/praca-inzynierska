@@ -43,8 +43,7 @@ export class AuthService {
 
   logout() {
     return this.fireAuth.auth.signOut().then(() => {
-      console.log('signed out')
-      this.router.navigate(['login']);
+      this.router.navigate(['']);
     });
   }
 }

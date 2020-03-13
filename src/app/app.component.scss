@@ -6,3 +6,30 @@
         height: 100%;
     }
 }
+
+.content {
+    width: 100%;
+    padding-top: 32px;
+}
+
+.honored-cards {
+    margin-top: 30px;
+    .card {
+        width:225px; 
+        height:142px; 
+        margin: 16px; 
+        border-radius: 12px;
+        .big {
+            font-size: 24px;
+            color: white;
+            font-weight: 500;
+        }
+        .small {
+            font-size: 14px;
+            color: red;
+            font-weight: 500;
+            margin-top: -10px;
+        }
+    }
+
+}

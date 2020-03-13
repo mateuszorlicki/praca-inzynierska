@@ -17,8 +17,7 @@ export class AuthGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.authService.authState$.pipe(map(state => {
         if (state !== null) { console.log('Guard passed'); return true; }
-        console.log('Guard not passed');
-        this.router.navigate(['/login']);
+          this.router.navigate(['/login-required']);
         return false;
         }
       )
