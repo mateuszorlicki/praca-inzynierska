@@ -10,18 +10,24 @@ import { TrainingCoursesComponent } from './main/components/training-courses/tra
 import { TimetableComponent } from './main/components/timetable/timetable.component';
 import { PriceListComponent } from './main/components/price-list/price-list.component';
 import { ContactComponent } from './main/components/contact/contact.component';
+import { UserPanelComponent } from './main/components/user-panel/user-panel.component';
+import { TrainerProfileComponent } from './main/components/trainer-team/trainer-profile/trainer-profile.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full'},
   { path: 'main', component: MainComponent},
-  { path: 'trainer-team', component: TrainerTeamComponent},
+  { path: 'trainer-team', children: [
+    { path: '', component: TrainerTeamComponent},
+    { path: ':id', component: TrainerProfileComponent}
+  ]},
   { path: 'personal-trainings', component: PersonalTrainingsComponent, canActivate: [AuthGuard]},
   { path: 'training-courses', component: TrainingCoursesComponent},
   { path: 'timetable', component: TimetableComponent},
   { path: 'price-list', component: PriceListComponent},
   { path: 'contact', component: ContactComponent},
   { path: 'login-required', component: LoginRequiredComponent},
+  { path: 'profile', component: UserPanelComponent},
   { path: 'login', component: LoginComponent}
 ];
 

@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/gym-firebase/services/auth.service';
 import { Router } from '@angular/router';
-
+import { AngularFirestore } from '@angular/fire/firestore';
+import { UserService } from 'src/app/gym-firebase/services/user.service';
+import { UserProfile } from 'src/app/shared/models/user.models';
+import { Observable } from 'rxjs';
+import * as fromUser from '../../../store/user';
+import { Store, select } from '@ngrx/store';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,10 +14,11 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  user = this.authService.user;
+  user$: Observable<UserProfile>;
+  isLoggedIn$: Observable<boolean>;
 
   logout() {
-    this.authService.logout();
+    this.store$.dispatch(fromUser.userLogOut());
   }
 
   login() {
@@ -23,17 +29,14 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([route]);
   }
   
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private store$: Store<fromUser.State>,
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.authState$.subscribe(res => {
-      console.log('auth', res);
-      if(res) {
-        this.user = this.authService.user;
-      } else {
-        this.user = null;
-      }
-    })
+    this.user$ = this.store$.pipe(select(fromUser.selectUserProfile));
+    this.isLoggedIn$ = this.store$.pipe(select(fromUser.selectIsLoggedIn));
+
   }
 
 }

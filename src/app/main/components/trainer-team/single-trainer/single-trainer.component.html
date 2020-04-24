@@ -1,0 +1,11 @@
+<div class="card" (click)="goToTrainerPage()">
+    <div class="card-body">
+        <div  class="profile d-flex">
+            <img class="profile-image" [src]="trainer.photoURL"/>
+            <div class="d-flex flex-column justify-content-around">
+                <h3>{{trainer.displayName}}</h3>
+                <h5>{{trainer.email}}</h5>
+            </div>
+        </div>
+    </div>
+  </div>

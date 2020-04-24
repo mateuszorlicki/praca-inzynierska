@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Store, select } from '@ngrx/store';
+import * as fromPass from '../../../store/pass';
+import { Pass } from 'src/app/shared/models/pass.model';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-price-list',
   templateUrl: './price-list.component.html',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PriceListComponent implements OnInit {
 
-  constructor() { }
+  allPasses$: Observable<Array<Pass>> = this.store$.pipe(select(fromPass.selectAllPasses));
+
+  constructor(
+    private store$: Store<fromPass.State>
+  ) { }
 
   ngOnInit(): void {
   }

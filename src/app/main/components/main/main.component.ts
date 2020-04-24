@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/gym-firebase/services/auth.service';
+import { Observable } from 'rxjs';
+import { User } from 'firebase';
 
 @Component({
   selector: 'app-main',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  user$: Observable<User>;
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.user$ = this.authService.authState$;
   }
 
 }

@@ -1,0 +1,20 @@
+.list-group {
+    height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25em;
+}
+.list-group-item {
+    border: 2px solid rgba(0,0,0,.125);
+    cursor: pointer;
+    img {
+        width: 16px;
+        height:16px;
+        border-radius: 50%;
+    }
+}
+
+.section {
+    margin-bottom: 32px;
+}

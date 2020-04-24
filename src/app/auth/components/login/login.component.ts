@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/gym-firebase/services/auth.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/gym-firebase/services/user.service';
+import { Store } from '@ngrx/store';
+import * as fromUser from '../../../store/user';
+import { UserProfile, Roles } from 'src/app/shared/models/user.models';
 
 @Component({
   selector: 'app-login',
@@ -16,34 +19,35 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup = this.fb.group({
     login: new FormControl(null, [Validators.required, Validators.email]),
-    password: new FormControl(null, [Validators.required])
+    password: new FormControl(null, [Validators.required, Validators.minLength(6)])
   });
 
   loginWithEmailAndPassword() {
     if(this.loginForm.valid) {
-      this.authService.loginWithEmailAndPassword({
-        email: this.loginForm.controls.login.value,
-        password: this.loginForm.controls.password.value
-      })
+      this.store$.dispatch(fromUser.userLogInWithEmail({
+        credentials: {
+          email: this.loginForm.controls.login.value,
+          password: this.loginForm.controls.password.value
+        }, 
+        newUser: null
+      }))
     }
   }
 
   registerWithEmailAndPassword() {
     if(this.loginForm.valid) {
-      this.authService.reqisterWithEmailAndPassword({
-        email: this.loginForm.controls.login.value,
-        password: this.loginForm.controls.password.value
-      }).then(user => {
-        this.authService.loginWithEmailAndPassword({
+      this.store$.dispatch(fromUser.userRegisterWithEmail({
+        credentials: {
           email: this.loginForm.controls.login.value,
           password: this.loginForm.controls.password.value
-        }).then(() => {
-          this.authService.user.updateProfile({
-            displayName: this.loginForm.controls.fullname.value,
-          });
-        })
-      })
+        },
+        displayName: this.loginForm.controls.fullname.value,
+      }))
     }
+  }
+
+  loginWithGoogle() {
+    this.store$.dispatch(fromUser.userLogInWithGoogle());
   }
 
   toggleRegisterForm() {
@@ -61,7 +65,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    public authService: AuthService, 
+    public authService: AuthService,
+    private store$: Store<fromUser.State>,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {

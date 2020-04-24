@@ -2,4 +2,26 @@
     <h1 class="display-4">Cześć!</h1>
     <p class="lead">W tym miejscu znajdziesz cennik usług naszej siłowni</p>
     <hr class="my-4">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Nazwa karnetu</th>
+                    <th scope="col">Normalny</th>
+                    <th scope="col">Studencki/Senior</th>
+                    <th scope="col">Akcje</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pass of allPasses$ | async">
+                    <td [innerHTML]="pass.name"></td>
+                    <td>{{pass.priceNormal}},00zł</td>
+                    <td>{{pass.priceDiscount}},00zł</td>
+                    <td><button class="btn btn-sm btn-primary btn-block">Kup</button></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
 </div>

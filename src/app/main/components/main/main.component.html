@@ -1,5 +1,14 @@
 <div class="jumbotron">
     <h1 class="display-4">Cześć!</h1>
     <p class="lead">W tym miejscu znajdować się będzie strona główna siłowni.</p>
+    <div *ngIf="user$ | async as user">
+        <h4>
+            {{user.displayName}}
+        </h4>
+        <span>
+            {{user.email}}
+        </span>
+        <span>{{user['roles'] | json}}</span>
+    </div>
     <hr class="my-4">
 </div>

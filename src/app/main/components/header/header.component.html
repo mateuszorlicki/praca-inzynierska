@@ -25,22 +25,19 @@
           <a class="nav-link" (click)="goTo('/contact')">Kontakt</a>
         </li>
       </ul>
-      <div *ngIf="!user">
+      <div *ngIf="(isLoggedIn$ | async) === false">
         <button class="btn btn-success" (click)="login()">Zaloguj się</button>
       </div>
-      <div *ngIf="false">
-        <button (click)="logout()" class="btn btn-primary">Wyloguj</button>
-    </div>
-      <div *ngIf="user" class="user">
+      <div *ngIf="(isLoggedIn$ | async) === true && (user$ | async) as user" class="user">
           <div class="user__data">
             <img *ngIf="user.photoURL" [src]="user.photoURL" alt="" class="user__image">
-            <div *ngIf="!user.photoURL"  alt="" class="user__image"></div>
             <div class="user__info">
                 <span class="user__info--fullname">{{user.displayName}}</span>
                 <span class="user__info--email">{{user.email}}</span>
             </div>
           </div>
           <div class="user__actions">
+              <button (click)="goTo('/profile')" class="btn btn-sm btn-success">Profil</button>
               <button (click)="logout()" class="btn btn-sm btn-primary">Wyloguj</button>
           </div>
       </div>
