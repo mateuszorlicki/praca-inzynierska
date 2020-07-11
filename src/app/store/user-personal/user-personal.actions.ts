@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { UserPersonal } from '../../main/components/personal-trainings-trainer/node_modules/src/app/shared/models/user.models';
+import { UserPersonal } from 'src/app/shared/models/user.models';
 
 export const createUserGroupIfNotExist = createAction(
     '[UERS PERSONAL] Create user personal if not exist',

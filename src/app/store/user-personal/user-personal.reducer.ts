@@ -1,7 +1,7 @@
 
 import * as userPersonalActions from './user-personal.actions';
 import { createReducer, Action, on, createFeatureSelector, Store } from '@ngrx/store';
-import { UserPersonal } from '../../main/components/personal-trainings-trainer/node_modules/src/app/shared/models/user.models';
+import { UserPersonal } from 'src/app/shared/models/user.models';
 
 export interface State {
     userPersonals: UserPersonal;
