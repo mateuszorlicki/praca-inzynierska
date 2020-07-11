@@ -27,7 +27,8 @@ export class UserPanelComponent implements OnInit {
         displayName: `${controls.firstName.value} ${controls.lastName.value}`,
         firstName: controls.firstName.value,
         lastName: controls.lastName.value,
-        photoURL: controls.photoURL.value
+        photoURL: controls.photoURL.value,
+        aboutMe: controls.aboutMe.value
       }
       this.store$.dispatch(fromUser.updateProfile({ uid: userId, user: data}));
     }
@@ -41,6 +42,7 @@ export class UserPanelComponent implements OnInit {
         firstName: new FormControl(user.firstName),
         lastName: new FormControl(user.lastName),
         photoURL: new FormControl(user.photoURL),
+        aboutMe: new FormControl(user.aboutMe),
       });
     });
 

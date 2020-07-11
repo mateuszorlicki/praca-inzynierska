@@ -1,60 +1,78 @@
-<div class="card">
-    <div class="card-body">
-        <h3>
-            Administratorzy
-        </h3>
-        <span>W tej sekcji możesz dodawać administratorów serwisu.</span>
+<mat-tab-group>
+    <mat-tab label="Grafik zajęć grupowych">
+        <app-group-trainings-timetable></app-group-trainings-timetable>
+    </mat-tab>
+    <mat-tab label="Administratorzy">
+        <h3 class="tab-title">W tej sekcji możesz dodawać administratorów serwisu.</h3>
         <div class="section d-flex justify-content-around">
             <div class="d-flex flex-column w-100">
                 <span>
                     Wszyscy użytkownicy
                 </span>
-                <ul *ngIf="(noAdminUsers$ | async) as noAdminUsers" class="list-group">
-                    <li *ngFor="let user of noAdminUsers" (click)="addRole(user, Roles.ADMIN)" class="list-group-item">
+                <mat-list #shoes *ngIf="(noAdminUsers$ | async) as noAdminUsers" >
+                    <mat-list-item *ngFor="let user of noAdminUsers">
                         <img [src]="user.photoURL"> {{user.displayName}}
-                    </li>
-                </ul>
+                        <span class="fill-remaining-space"></span>
+                        <button mat-raised-button color="primary" (click)="addRole(user, Roles.ADMIN)">
+                            Dodaj
+                            </button>
+                    </mat-list-item>
+                </mat-list>
             </div>
             <div class="d-flex flex-column w-100">
                 <span>
                     Administratorzy
                 </span>
-                <ul *ngIf="(adminUsers$ | async) as adminUsers" class="list-group">
-                    <li *ngFor="let user of adminUsers" (click)="adminUsers.length === 1? {} : removeRole(user, Roles.ADMIN)" class="list-group-item">
+                <mat-list #shoes  *ngIf="(adminUsers$ | async) as adminUsers" >
+                    <mat-list-item *ngFor="let user of adminUsers">
                         <img [src]="user.photoURL"> {{user.displayName}}
-                    </li>
-                </ul>
+                        <span class="fill-remaining-space"></span>
+                        <button mat-raised-button color="warn" (click)="adminUsers.length === 1? {} : removeRole(user, Roles.ADMIN)">
+                            Usuń
+                        </button>
+                    </mat-list-item>
+                </mat-list>
             </div>
         </div>
-    </div>
-</div>
-<div class="card">
-    <div class="card-body">
-        <h3>
-            Kadra trenerska
-        </h3>
-        <span>W tej sekcji możesz dodawać trenerów.</span>
+    </mat-tab>
+        <mat-tab label="Kadra trenerska">
+        <h3 class="tab-title">W tej sekcji możesz dodawać trenerów.</h3>
         <div class="section d-flex justify-content-around">
             <div class="d-flex flex-column w-100">
                 <span>
                     Wszyscy użytkownicy
-                </span>
-                <ul *ngIf="(noTrainerUsers$ | async) as noTrainerUsers" class="list-group">
-                    <li *ngFor="let user of noTrainerUsers" (click)="addRole(user, Roles.TRAINER)" class="list-group-item">
+                </span>                
+                <mat-list  *ngIf="(noTrainerUsers$ | async) as noTrainerUsers">
+                    <mat-list-item *ngFor="let user of noTrainerUsers">
                         <img [src]="user.photoURL"> {{user.displayName}}
-                    </li>
-                </ul>
+                        <span class="fill-remaining-space"></span>
+                        <button mat-raised-button color="primary" (click)="addRole(user, Roles.TRAINER)">
+                            Dodaj
+                            </button>
+                    </mat-list-item>
+                </mat-list>
             </div>
             <div class="d-flex flex-column w-100">
                 <span>
                     Trenerzy
                 </span>
-                <ul *ngIf="(trainerUsers$ | async) as trainerUsers" class="list-group">
-                    <li *ngFor="let user of trainerUsers" (click)="removeRole(user, Roles.TRAINER)" class="list-group-item">
+                <mat-list *ngIf="(trainerUsers$ | async) as trainerUsers">
+                    <mat-list-item *ngFor="let user of trainerUsers">
                         <img [src]="user.photoURL"> {{user.displayName}}
-                    </li>
-                </ul>
+                        <span class="fill-remaining-space"></span>
+                        <button mat-raised-button color="warn" (click)="removeRole(user, Roles.TRAINER)">
+                            Usuń
+                        </button>
+                    </mat-list-item>
+                </mat-list>
             </div>
         </div>
-    </div>
-</div>
+    </mat-tab>
+    <mat-tab label="Sale">
+        <app-training-room></app-training-room>
+    </mat-tab>
+    <mat-tab label="Zajęcia grupowe">
+        <app-group-trainings></app-group-trainings>
+    </mat-tab>
+
+</mat-tab-group>

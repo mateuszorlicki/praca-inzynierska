@@ -51,5 +51,4 @@ export const getUserData = createAction(
 export const updateProfile = createAction(
     '[USER] Update profile',
     props<{uid: string; user: UserProfile}>()
-
 )

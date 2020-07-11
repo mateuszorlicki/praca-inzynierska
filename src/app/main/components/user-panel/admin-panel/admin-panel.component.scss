@@ -5,9 +5,8 @@
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25em;
 }
-.list-group-item {
-    border: 2px solid rgba(0,0,0,.125);
-    cursor: pointer;
+mat-list-item {
+    display: flex;
     img {
         width: 16px;
         height:16px;
@@ -17,4 +16,8 @@
 
 .section {
     margin-bottom: 32px;
+}
+
+.tab-title{
+    margin-top: 16px;
 }

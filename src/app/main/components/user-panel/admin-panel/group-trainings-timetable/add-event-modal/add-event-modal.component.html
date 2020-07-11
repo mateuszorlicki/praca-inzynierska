@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Dodaj do kalendarza</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="eventForm" class="d-flex flex-column" (ngSubmit)="saveEvent()">
+        <mat-form-field>
+            <mat-label>Grupa</mat-label>
+            <input type="text" matInput cdkFocusInitial formControlName="groupTraining" [matAutocomplete]="addRoomAutocomplete">
+        </mat-form-field>
+        <mat-autocomplete #addRoomAutocomplete="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let group of (getFilteredGroups(eventForm.controls.groupTraining.value) | async)"
+                [value]="group">
+                <div class="d-flex flex-column">
+                    <span class="mat-body">{{group.name}}</span>
+                    <div class="d-flex justify-content-between">
+                        <span class="mat-small">
+                            {{group.trainer}}
+                        </span>
+                        <span class="mat-small">
+                            {{group.room}}
+                        </span>
+                    </div>
+                </div>
+            </mat-option>
+        </mat-autocomplete>
+        <mat-form-field>
+            <mat-label>Start</mat-label>
+            <input type="time" matInput formControlName="start">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Koniec</mat-label>
+            <input type="time" matInput formControlName="end">
+        </mat-form-field>
+        <div>
+            <mat-label>Dzień tygodnia</mat-label>
+            <mat-radio-group formControlName="byweekday" aria-label="Select an option">
+                <mat-radio-button [value]="1">Poniedziałek</mat-radio-button>
+                <mat-radio-button [value]="2">Wtorek</mat-radio-button>
+                <mat-radio-button [value]="3">Środa</mat-radio-button>
+                <mat-radio-button [value]="4">Czwartek</mat-radio-button>
+                <mat-radio-button [value]="5">Piątek</mat-radio-button>
+                <mat-radio-button [value]="6">Sobota</mat-radio-button>
+                <mat-radio-button [value]="7">Niedziela</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Anuluj</button>
+    <button mat-button (click)="eventForm.valid? saveEvent() : {}">Zapisz</button>
+</mat-dialog-actions>

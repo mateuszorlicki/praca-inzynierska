@@ -3,7 +3,7 @@ import { AuthService } from 'src/app/gym-firebase/services/auth.service';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from 'src/app/gym-firebase/services/user.service';
-import { UserProfile } from 'src/app/shared/models/user.models';
+import { UserProfile, Roles } from 'src/app/shared/models/user.models';
 import { Observable } from 'rxjs';
 import * as fromUser from '../../../store/user';
 import { Store, select } from '@ngrx/store';
@@ -16,6 +16,8 @@ export class HeaderComponent implements OnInit {
 
   user$: Observable<UserProfile>;
   isLoggedIn$: Observable<boolean>;
+
+  Roles = Roles;
 
   logout() {
     this.store$.dispatch(fromUser.userLogOut());

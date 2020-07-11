@@ -1,0 +1,58 @@
+<ng-container *ngIf="trainingRooms">
+    <h3 class="tab-title">
+        Zarządzanie salami
+    </h3>
+    <table mat-table [dataSource]="trainingRooms">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell  *matHeaderCellDef>Nazwa sali</th>
+            <td mat-cell *matCellDef="let element; let i = index;">
+                <span *ngIf="!editedRooms.includes(element.roomID)">{{element.name}}</span>
+                
+                <form *ngIf="editedRooms.includes(element.roomID)" [formGroup]="getFormGroupFromArray(i)" [id]="'form-' + element.roomID">
+                    <mat-form-field>
+                        <mat-label>Nazwa sali</mat-label>
+                        <input type="text" matInput id="name" formControlName="name" placeholder="Podaj nazwę sali">
+                    </mat-form-field>    
+                </form>
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+                <form *ngIf="newRoom" [formGroup]="getFormGroupFromArray(trainingRooms.length)" id="new-room">
+                    <mat-form-field>
+                        <mat-label>Nazwa sali</mat-label>
+                        <input type="text" matInput id="name" formControlName="name" placeholder="Podaj nazwę sali">
+                    </mat-form-field>   
+                </form>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell  *matHeaderCellDef>
+                Akcje 
+                <button mat-mini-fab color="primary" (click)="addTrainingRoom()" >
+                    <mat-icon>add</mat-icon>
+                </button>
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index;">
+                <button *ngIf="!editedRooms.includes(element.roomID)" mat-mini-fab color="accent"  (click)="editTrainingRoom(element)">
+                    <mat-icon>create</mat-icon>
+                </button>
+                <button *ngIf="editedRooms.includes(element.roomID)" mat-mini-fab color="primary" (click)="saveTrainingRoom(getFormGroupFromArray(i))">
+                    <mat-icon>save</mat-icon>
+                </button>
+                <button *ngIf="editedRooms.includes(element.roomID)" mat-mini-fab color="warn" (click)="cancelEditTrainingRoom(element)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+                <button *ngIf="newRoom"  mat-mini-fab color="primary" (click)="saveNewRoom(getFormGroupFromArray(trainingRooms.length))">
+                    <mat-icon>save</mat-icon>
+                </button>
+                <button *ngIf="newRoom"  mat-mini-fab color="warn" (click)="cancelAddTrainingRoom()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i=index"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
+</ng-container>

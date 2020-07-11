@@ -1,3 +1,32 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+@import '~@angular/material/prebuilt-themes/purple-green.css';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$gym-primary: mat-palette($mat-purple);
+$gym-accent: mat-palette($mat-green, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$gym-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$gym-theme: mat-light-theme($gym-primary, $gym-accent, $gym-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($gym-theme);
+
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
 html, body {
@@ -11,4 +40,97 @@ html, body {
 
 .card {
     margin: 16px 0;
+}
+
+body {
+    background-image: url('assets/gym.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.jumbotron {
+    // background-color: rgba(233,236,239, 0.8);
+}
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.fill-remaining-space {
+    flex: 1 1 auto;
+  }
+
+  .tab-title{
+    margin-top: 16px;
+}
+
+@import '~angular-calendar/scss/angular-calendar.scss';
+
+.dark-theme {
+  // First define some global color variables for your app, these are just for the demo, they can be anything you like
+  $bg-dark-primary: #1f262d;
+  $bg-dark-secondary: #394046;
+  $bg-active: #2c343a;
+  $text-color: #d5d6d7;
+  $border-color: rgba(0, 0, 0, 0.6);
+
+  // Call the calendar mixin with a sass color map of your theme. Every property is optional.
+  // For a list of all variables and how they are used,
+  // see https://github.com/mattlewis92/angular-calendar/tree/master/projects/angular-calendar/src/variables.scss
+  @include cal-theme(
+    (
+      bg-primary: $bg-dark-primary,
+      bg-secondary: $bg-dark-secondary,
+      weekend-color: indianred,
+      bg-active: $bg-active,
+      border-color: $border-color,
+      gray: $bg-dark-secondary,
+      today-bg: $bg-dark-secondary,
+      event-color-primary: $bg-dark-secondary,
+    )
+  );
+
+  // How to override a non themable property, this was copied from chrome -> inspect element -> styles panel
+  .cal-month-view .cal-day-cell.cal-out-month .cal-day-number {
+    opacity: 0.15;
+  }
+
+  // Everything else below is just themes the demo, it's probably not relevant to your app
+  background-color: $bg-dark-primary;
+  color: $text-color;
+
+  .card {
+    border-color: $border-color;
+  }
+
+  .card-header {
+    background-color: $bg-dark-secondary;
+  }
+
+  .card-body {
+    background-color: $bg-dark-primary;
+  }
+
+  .nav-tabs {
+    border-bottom-color: $border-color;
+  }
+
+  .nav-tabs .nav-link.active {
+    background-color: $bg-dark-primary;
+    color: $text-color;
+    border-color: $border-color;
+  }
+
+  .nav-tabs .nav-link:hover,
+  .nav-tabs .nav-link:focus {
+    border-color: $border-color;
+  }
+}
+
+body {
+    * {
+        outline: none !important;
+    }
 }

@@ -1,10 +1,13 @@
 export interface Pass {
+    passID?: string;
     order: number;
     name: string;
     priceNormal: number;
     priceDiscount: number;
-    validity: Validity
-    validityValue: number;
+    validityNumber: number;
+    isGroupTraining: boolean;
+    isPersonalTraining: boolean;
+    isOnlyGym: boolean
 }
 
 export enum Validity {
@@ -12,15 +15,10 @@ export enum Validity {
     ENTRIES = "ENTRIES"
 }
 
-export interface EntriesPass extends Pass {
-    ownerUid: string;
-    boughtTime: Date;
-    remainingEntries: number;
-}
-
-export interface MonthsPass extends Pass {
-    ownerUid: string;
-    boughtTime: Date;
-    validFrom: number;
-    validTo: number;
+export interface UserPass extends Pass {
+    userID: string;
+    boughtTime: any;
+    validFrom: any;
+    validTo: any;
+    remainingEntries?: number;
 }

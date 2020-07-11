@@ -12,6 +12,7 @@ import { PriceListComponent } from './main/components/price-list/price-list.comp
 import { ContactComponent } from './main/components/contact/contact.component';
 import { UserPanelComponent } from './main/components/user-panel/user-panel.component';
 import { TrainerProfileComponent } from './main/components/trainer-team/trainer-profile/trainer-profile.component';
+import { PersonalTrainingsTrainerComponent } from './main/components/personal-trainings-trainer/personal-trainings-trainer.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
     { path: '', component: TrainerTeamComponent},
     { path: ':id', component: TrainerProfileComponent}
   ]},
+  { path: 'personal-trainings-trainer', component: PersonalTrainingsTrainerComponent, canActivate: [AuthGuard]},
   { path: 'personal-trainings', component: PersonalTrainingsComponent, canActivate: [AuthGuard]},
   { path: 'training-courses', component: TrainingCoursesComponent},
   { path: 'timetable', component: TimetableComponent},

@@ -2,26 +2,54 @@
     <h1 class="display-4">Cześć!</h1>
     <p class="lead">W tym miejscu znajdziesz cennik usług naszej siłowni</p>
     <hr class="my-4">
-    <div class="card">
+    <div class="card  ">
         <div class="card-body">
-            <table class="table table-striped">
+            <table class="table table-dark table-striped">
                 <thead>
                   <tr>
                     <th scope="col">Nazwa karnetu</th>
                     <th scope="col">Normalny</th>
                     <th scope="col">Studencki/Senior</th>
-                    <th scope="col">Akcje</th>
+                    <th scope="col" class="d-flex justify-content-between" *ngIf="shouldBuyPass || isAdmin">Akcje <button *ngIf="isAdmin" (click)="editPass()" class="btn btn-sm btn-success">Dodaj</button></th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr *ngFor="let pass of allPasses$ | async">
+                <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+                  <tr  *ngFor="let pass of allPasses$ | async" cdkDrag>
                     <td [innerHTML]="pass.name"></td>
                     <td>{{pass.priceNormal}},00zł</td>
                     <td>{{pass.priceDiscount}},00zł</td>
-                    <td><button class="btn btn-sm btn-primary btn-block">Kup</button></td>
+                    <td *ngIf="shouldBuyPass"><button class="btn btn-sm btn-primary btn-block" (click)="buyPass(pass)">Kup</button></td>
+                    <td *ngIf="isAdmin">
+                      <button class="btn btn-sm btn-primary btn-block" (click)="editPass(pass)">Edytuj</button>
+                      <button class="btn btn-sm btn-danger btn-block" (click)="openDeleteModal(pass)">Usuń</button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
         </div>
     </div>
+</div>
+
+<app-buy-pass-modal *ngIf="passModalOpened" [pass]="selectedPass" (onClose)="closeModal()"></app-buy-pass-modal>
+<app-add-edit-pass-modal *ngIf="addEditPassModalOpened" [pass]="selectedPass" (onClose)="closeModal()"></app-add-edit-pass-modal>
+<div *ngIf="deleteConfirmModalOpened" class="modal">
+  <div class="modal-content">
+    <div class="header">
+      <h4 >Usuń karnet</h4>
+      <button type="button" class="close" (click)="closeModal()">
+        <span>&times;</span>
+      </button>
+    </div>
+    <div class="content">
+      <h6>Czy na pewno chcesz usunąć karnet?</h6>
+    </div>
+    <div class="footer">
+        <button class="btn btn-outline-secondary" (click)="closeModal()">
+            Anuluj
+        </button>
+        <button class="btn btn-danger" (click)="deletePass(selectedPass)">
+            Usuń
+        </button>
+    </div>
+  </div>
 </div>

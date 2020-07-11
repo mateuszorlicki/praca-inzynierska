@@ -1,0 +1,38 @@
+<div class="jumbotron">
+ 
+    <ng-container>
+        <mat-card>
+            <mat-card-header>
+                Twoje treningi personalne
+            </mat-card-header>
+            <mat-card-content>                
+                <ng-container>
+                    <h4>Zaakceptowane</h4>
+                    <mat-list>
+                        <mat-list-item *ngIf="(acceptedTrainings$ | async).length === 0">
+                            Brak zaakceptowanych treningów
+                        </mat-list-item>
+                        <mat-list-item *ngFor="let event of (acceptedTrainings$ | async)">
+                            <div class="alert alert-success">
+                                {{event.titleForTrainer}} | {{event.dateStart | date: 'dd.MM.yyyy   HH:mm'}} - {{event.dateEnd | date: 'HH:mm'}}
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </ng-container>
+                <ng-container>
+                    <h4>Oczekujące na akceptację</h4>
+                    <mat-list>
+                        <mat-list-item *ngIf="(notAcceptedTrainings$ | async).length === 0">
+                            Brak zaakceptowanych treningów
+                        </mat-list-item>
+                        <mat-list-item *ngFor="let event of (notAcceptedTrainings$ | async)">
+                            <div class="alert alert-warning">
+                                {{event.titleForTrainer}} | {{event.dateStart | date: 'dd.MM.yyyy   HH:mm'}} - {{event.dateEnd | date: 'HH:mm'}}
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </ng-container>
+            </mat-card-content>
+        </mat-card>
+    </ng-container>
+</div>

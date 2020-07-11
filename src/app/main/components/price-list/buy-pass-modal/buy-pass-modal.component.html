@@ -1,0 +1,34 @@
+<div class="modal">
+    <div class="modal-content">
+      <div class="header">
+        <h4 >Kup karnet</h4>
+        <button type="button" class="close" (click)="close()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="content">
+        <div class="row">
+            <div class="col-4 d-flex flex-column">
+                <span>Nazwa karnetu: </span>
+                <span>Ważny od: </span>
+                <span>Ważny do: </span>
+                <span *ngIf="pass.isGroupTraining">Ilość wejść</span>
+            </div>
+            <div class="col-8 d-flex flex-column">
+                <span [innerHTML]="pass.name"></span>
+                <span>{{now | date: 'dd-MM-yyyy'}}</span>
+                <span>{{getPassValidTo() | date: 'dd-MM-yyyy'}}</span>
+                <span *ngIf="pass.isGroupTraining">{{pass.validityNumber}}</span>
+            </div>
+        </div>
+      </div>
+      <div class="footer">
+          <button class="btn btn-outline-secondary" (click)="close()">
+              Anuluj
+          </button>
+          <button class="btn btn-primary" (click)="buyPass()">
+              Kup
+          </button>
+      </div>
+    </div>
+  </div>

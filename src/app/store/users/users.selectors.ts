@@ -26,7 +26,7 @@ export const selectAllUsers = createSelector(
     fromReducer.getAllUsers
 );
 
-export const selectSingleUser =createSelector(
+export const selectSingleUser = (id) => createSelector(
     fromReducer.getUsersState,
-    (state, props) => state.users.find(u => u.uid === props.id)
+    (state) => state.users.find(u => u.uid === id)
 )

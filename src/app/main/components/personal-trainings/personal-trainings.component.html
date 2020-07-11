@@ -1,5 +1,121 @@
 <div class="jumbotron">
-    <h1 class="display-4">Cześć!</h1>
-    <p class="lead">W tym miejscu sprawdzisz swoje aktualne treningi, oraz zapiszesz się na nowe.</p>
-    <hr class="my-4">
+    <ng-container *ngIf="(count$ | async) > -1">
+        <mat-card>
+            <mat-card-header class="d-flex flex-column">
+               <h3>Status karnetu</h3> 
+            </mat-card-header>
+            <mat-card-content>
+                <div class="alert alert-danger" *ngIf="(count$ | async) === 0">
+                    <span>
+                        Uwaga! Nie masz żadnych aktywnych karnetów, ktore pozwoliły by zapisać się na zajęcia! Przejdź do zakładki <a [routerLink]="['/price-list']">Cennik</a>, aby kupić odpowiedni karnet na zajęcia grupowe.
+                    </span>
+                </div>
+                <div class="alert alert-info" *ngIf="(count$ | async) > 0">
+                    <span>
+                        Uwaga! Możesz zapisać się jeszcze na <strong>{{count$ | async}}</strong> {{(count$ | async) > 0 && (count$ | async) < 5? 'zajęcia' : 'zajęć'}}. Pamiętaj, że zapisanie na zajęcia zużywa karnet, bądź jego część!
+                    </span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </ng-container>
+    <ng-container *ngIf="!userPersonal && (count$ | async) > 0">
+        <mat-card class="mt-4">
+            <mat-card-header class="d-flex flex-column">
+                <h3>Trenerzy</h3>
+                <p>Wygląda na to, że nie wybrałeś jeszcze swojego trenera! Zapoznaj się z naszą <a [routerLink]="['/trainer-team']">kadrą trenerską</a>, a potem wybierz osobę, która pomoże Ci rozwinąć skrzydła na siłowni!</p>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list role="list">
+                    <mat-list-item *ngFor="let trainer of trainers$ | async" role="listitem">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <div class="trainer-data d-flex align-items-center justify-content-between">
+                                <img class="profile-image" [src]="trainer.photoURL"/> {{trainer.displayName}}
+                            </div>
+                            <div class="trainer-actions">
+                                <button mat-raised-button  color="primary" (click)="setTrainer(trainer.uid)">Wybierz mnie!</button>
+                            </div>
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </ng-container>
+    <ng-container *ngIf="userPersonal">
+        <mat-card *ngIf="(getTrainer() | async) as trainer">
+            <mat-card-header>
+                Twoje treningi personalne
+            </mat-card-header>
+            <mat-card-content>                
+                <ng-container>
+                    <h4>Dodaj nowy</h4>
+                    <mat-list>
+                        <mat-list-item [formGroup]="newPersonalForm" >
+                            <div class="d-flex justify-content-between w-100">
+                                <div>
+                                    <img class="profile-image mx-3" [src]="trainer.photoURL"/> {{trainer.displayName}}
+                                    <mat-form-field class="mx-3">
+                                        <mat-label>Data</mat-label>
+                                        <input matInput [matDatepicker]="picker" formControlName="dateStart">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                      </mat-form-field>
+                                    <mat-form-field class="mx-3">
+                                        <mat-label>Godzina</mat-label>
+                                        <input matInput type="time" min="06:00" list="hourDataList" formControlName="hourStart">
+                                        <datalist id="hourDataList">
+                                            <option value="06:00">
+                                            <option value="07:00">
+                                            <option value="08:00">
+                                            <option value="09:00">
+                                            <option value="10:00">
+                                            <option value="11:00">
+                                            <option value="12:00">
+                                            <option value="13:00">
+                                            <option value="14:00">
+                                            <option value="15:00">
+                                            <option value="16:00">
+                                            <option value="17:00">
+                                            <option value="18:00">
+                                            <option value="19:00">
+                                            <option value="20:00">
+                                            <option value="21:00">
+                                          </datalist>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <button mat-raised-button color="primary" [disabled]="!newPersonalForm.valid" (click)="saveTraining()">Wyślij zapytanie</button>
+                                </div>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </ng-container>
+                <ng-container>
+                    <h4>Zaakceptowane</h4>
+                    <mat-list>
+                        <mat-list-item *ngIf="(acceptedTrainings$ | async).length === 0">
+                            Brak zaakceptowanych treningów
+                        </mat-list-item>
+                        <mat-list-item *ngFor="let event of (acceptedTrainings$ | async)">
+                            <div class="alert alert-success">
+                                {{event.titleForUser}} | {{event.dateStart | date: 'dd.MM.yyyy   HH:mm'}} - {{event.dateEnd | date: 'HH:mm'}}
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </ng-container>
+                <ng-container>
+                    <h4>Oczekujące na akceptację</h4>
+                    <mat-list>
+                        <mat-list-item *ngIf="(notAcceptedTrainings$ | async).length === 0">
+                            Brak zaakceptowanych treningów
+                        </mat-list-item>
+                        <mat-list-item *ngFor="let event of (notAcceptedTrainings$ | async)">
+                            <div class="alert alert-warning">
+                                {{event.titleForUser}} | {{event.dateStart | date: 'dd.MM.yyyy   HH:mm'}} - {{event.dateEnd | date: 'HH:mm'}}
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </ng-container>
+            </mat-card-content>
+        </mat-card>
+    </ng-container>
 </div>

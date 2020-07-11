@@ -1,0 +1,8 @@
+.presentation-circle {
+    pointer-events: none;
+    margin-right: 8px;
+}    
+
+::ng-deep .circle-picker {
+    width: unset !important;
+}

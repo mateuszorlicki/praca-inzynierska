@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import * as fromActions from './user.actions';
+import * as fromPass from '../pass/pass.actions';
 import { switchMap, map, tap, catchError, take, withLatestFrom } from 'rxjs/operators';
 import { State } from './user.reducer';
 import { Store, select } from '@ngrx/store';
@@ -104,6 +105,13 @@ export class UserEffects {
                     catchError((error) => fromActions.getProfileError)
                 ))
     ));
+
+    public getProfileSuccess$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(fromActions.getProfileSuccess),
+            map((user) => fromPass.getUserPassesRequest({userID: user.user.uid}))
+        )
+    );
                 
     public userLogOut$ = createEffect(() =>
         this.actions$.pipe(

@@ -11,6 +11,8 @@ import * as fromUser from '../../../../store/user';
 })
 export class AdminPanelComponent implements OnInit {
 
+  color
+
   trainerUsers$: Observable<Array<UserProfile>>;
   noTrainerUsers$: Observable<Array<UserProfile>>;
   adminUsers$: Observable<Array<UserProfile>>;
@@ -43,7 +45,6 @@ export class AdminPanelComponent implements OnInit {
     this.adminUsers$ = this.store$.pipe(select(fromUsers.selectAllAdmins));
     this.noAdminUsers$ = this.store$.pipe(select(fromUsers.selectAllNotAdmins));
 
-    this.store$.dispatch(fromUsers.getAllUsersRequest());
   }
 
 }

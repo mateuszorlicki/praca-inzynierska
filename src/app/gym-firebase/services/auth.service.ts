@@ -21,22 +21,18 @@ export class AuthService {
     public fireAuth: AngularFireAuth,
   ) { }
 
-  get user(): User | null {
-    return this.fireAuth.auth.currentUser;
-  }
-
   loginWithEmailAndPassword(credentials: Credentials) {
-    return from(this.fireAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password));
+    return from(this.fireAuth.signInWithEmailAndPassword(credentials.email, credentials.password));
   }
   reqisterWithEmailAndPassword(credentials: Credentials) {
-    return from(this.fireAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password));
+    return from(this.fireAuth.createUserWithEmailAndPassword(credentials.email, credentials.password));
   }
 
   loginWithGoogle() {
-    return from(this.fireAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())) ;
+    return from(this.fireAuth.signInWithPopup(new auth.GoogleAuthProvider())) ;
   }  
 
   logout() {
-    return from(this.fireAuth.auth.signOut());
+    return from(this.fireAuth.signOut());
   }
 }

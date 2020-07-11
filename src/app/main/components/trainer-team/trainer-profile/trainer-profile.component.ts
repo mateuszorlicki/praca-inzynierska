@@ -19,7 +19,7 @@ export class TrainerProfileComponent implements OnInit {
     private store$: Store<fromUsers.State>
   ) {
     this.route.params.subscribe(res => {
-      this.trainer$ = this.store$.pipe(select(fromUsers.selectSingleUser, { id: res.id }));
+      this.trainer$ = this.store$.pipe(select(fromUsers.selectSingleUser(res.id)));
     })
    }
 

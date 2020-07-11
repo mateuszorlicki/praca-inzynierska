@@ -11,6 +11,20 @@ export interface UserProfile {
     photoURL?: string;
     email?: string;
     roles?: Array<Roles>;
+    aboutMe?: string;
+}
+
+export interface UserTraining {
+    userID: string;
+    trainingsIDs: Array<string>;
+    userTrainingID?: string;
+}
+
+export interface UserPersonal {
+    userID: string;
+    trainerID: string;
+    personalTrainingIDs: Array<string>;
+    userPersonalID?: string;
 }
 
 export enum Roles {
@@ -26,5 +40,6 @@ export const GUEST_USER: UserProfile = {
     displayName: '',
     photoURL: '',
     email: '',
+    aboutMe: '',
     roles: [Roles.GUEST]
 }
