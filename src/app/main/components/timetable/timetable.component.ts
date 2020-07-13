@@ -20,9 +20,11 @@ import { CustomDateFormatter } from 'src/app/gym-firebase/services/custom-date-f
 import { MatDialog } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
 import * as fromGroupTraining from '../../../store/group-trainings';
+import * as fromPersonalTraining from '../../../store/personal-trainings';
 import { GroupTrainingService } from 'src/app/gym-firebase/services/group-trainings.service';
 import { GroupTrainingEvent } from 'src/app/shared/models/group-training.model';
 import * as moment from 'moment';
+import { PersonalTrainingService } from 'src/app/gym-firebase/services/personal-trainings.service';
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -84,7 +86,7 @@ export class TimetableComponent implements OnInit {
     events: CalendarEvent[] = [];
     activeDayIsOpen: boolean = true;
   
-    constructor(private cdr: ChangeDetectorRef, private dialog: MatDialog, private store$: Store, private groupTrainingService: GroupTrainingService) {}
+    constructor(private cdr: ChangeDetectorRef, private dialog: MatDialog, private store$: Store, private groupTrainingService: GroupTrainingService, private personalTrainingService: PersonalTrainingService) {}
   
     ngOnInit() {
       this.store$.pipe(
@@ -95,6 +97,12 @@ export class TimetableComponent implements OnInit {
         this.events = [...this.groupTrainingService.mapRRuleEventsToCalendarEvents(rruleEvents)];
         this.cdr.detectChanges();
         this.refreshData();
+      });
+
+      this.store$.pipe(
+        select(fromPersonalTraining.selectAcceptedPersonalTrainings)
+      ).subscribe(res => {
+        this.events = [...this.events, ...this.personalTrainingService.mapPersonalEventsToCalendarEvents(res)]
       })
     }
   

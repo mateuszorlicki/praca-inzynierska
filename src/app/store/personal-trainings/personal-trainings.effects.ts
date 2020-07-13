@@ -39,7 +39,6 @@ export class PersonalTrainingEffects {
         ),
         switchMap(({userID, isTrainer}) => this.personalTrainingService.getAllPersonalTrainingEvents(userID, isTrainer).pipe(
             map((response) => {
-                console.log(response);
                 return fromActions.getAllPersonalTrainingEventSuccess({personalTrainingEvents: response})
             })
         ))

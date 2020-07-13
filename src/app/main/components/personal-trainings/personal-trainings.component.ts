@@ -22,11 +22,13 @@ export class PersonalTrainingsComponent implements OnInit {
 
   userPersonal: UserPersonal;
 
-  count$: Observable<number> = this.store$.pipe(select(fromPersonal.selectCountUserLeftPersonal));
+  count$: Observable<number> = this.store$.pipe(select(fromPersonalTraining.selectCountUserLeftPersonal));
 
   acceptedTrainings$: Observable<Array<PersonalTrainingEvent>> = this.store$.pipe(select(fromPersonalTraining.selectAcceptedPersonalTrainings));
   notAcceptedTrainings$: Observable<Array<PersonalTrainingEvent>> = this.store$.pipe(select(fromPersonalTraining.selectNotAcceptedPersonalTrainings));
-
+  
+  canUserAddPersonal$: Observable<boolean> = this.store$.pipe(select(fromPersonalTraining.selectCanUserAddPersonal));
+  
   newPersonalForm: FormGroup = this.fb.group({
     dateStart: new FormControl(null, [Validators.required]),
     hourStart: new FormControl(null, [Validators.required]),
@@ -37,7 +39,6 @@ export class PersonalTrainingsComponent implements OnInit {
   ngOnInit(): void {
     this.store$.pipe(
       select(fromPersonal.selectUserPersonals)).subscribe(res => {
-        console.log(res);
         this.userPersonal = res
       })
   }
@@ -54,9 +55,9 @@ export class PersonalTrainingsComponent implements OnInit {
     return this.store$.pipe(select(fromUsers.selectSingleUser(this.userPersonal.userID)))
   }
 
-  saveTraining(){ 
-    const date = new Date(this.newPersonalForm.controls.dateStart.value);
-    let time = (this.newPersonalForm.controls.hourStart.value as string).split(':');
+  saveTraining(form: FormGroup){ 
+    const date = new Date(form.controls.dateStart.value);
+    let time = (form.controls.hourStart.value as string).split(':');
     const dateStart = moment(date).set('hour',  parseInt(time[0])).set('minute',  parseInt(time[1]));
     const dateEnd = moment(date).set('hour',  parseInt(time[0]) + 1).set('minute',  parseInt(time[1]));
     let personalTrainingEvent: PersonalTrainingEvent = {
@@ -68,7 +69,6 @@ export class PersonalTrainingsComponent implements OnInit {
       titleForTrainer: '',
       titleForUser: '',
     }
-    console.log('train', personalTrainingEvent);
     this.store$.dispatch(fromPersonalTraining.askForTraining({personalTrainingEvent}))
   }
 

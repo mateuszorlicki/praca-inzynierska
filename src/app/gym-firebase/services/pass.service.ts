@@ -27,8 +27,8 @@ export class PassService {
       ...pass,
       userID,
       boughtTime: moment().toDate(),
-      validFrom: moment().toDate(),
-      validTo: this.getPassValidTo(pass).toDate(),
+      validFrom: moment().toISOString(),
+      validTo: this.getPassValidTo(pass).toISOString(),
     });
     this.afs.collection(this.userPassPath).add(userPass);
   }

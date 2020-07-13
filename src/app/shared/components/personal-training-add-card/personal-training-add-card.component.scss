@@ -1,0 +1,47 @@
+.personal-training {
+    min-width: 200px;
+    .plain-icon {
+        margin-right: 6px;
+    }
+
+}
+
+::ng-deep .personal-training {
+    mat-form-field {
+        height: 24px;
+        width: 100px;
+        display: flex;
+        align-items: center;
+        .mat-form-field-wrapper {
+            width: 100%;
+            padding: 0 !important;
+        }
+        .mat-form-field-infix {
+            padding: 0 !important;
+            border: none !important;
+            margin: 0 !important;  
+        }
+        .mat-form-field-subscript-wrapper {
+            display: none;
+        }
+    
+        .mat-form-field-underline {
+            position: absolute !important;
+            bottom: 0 !important;
+            background-color: #0c5460 !important;
+        }
+    }
+    
+    .mat-datepicker-toggle-default-icon {
+        color: #0c5460;
+    }
+    
+    
+    .mat-select-value-text, .mat-select-arrow {
+        color: #0c5460 !important;
+    }
+} 
+
+.colision-tooltip {
+    background-color: #f44336 !important;
+}

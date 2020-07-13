@@ -1,0 +1,28 @@
+<div class="personal-training d-flex flex-column">
+    <div class="collision" matTooltip="Dany termin został zarezerwowany więcej niż jeden raz! Odrzuć część treningów" [matTooltipClass]="'colision-tooltip'" *ngIf="collision">
+        <button  mat-icon-button color="warn" [style.pointer-events]="'none'" (click)="$event.preventDefault()">
+            <mat-icon>error</mat-icon>
+        </button>
+    </div>
+    <div class="personal-training__header"></div>
+    <div class="personal-training__body d-flex flex-column">
+        <div *ngIf="forTrainer" class="personal-training__body--who d-flex align-items-center my-2">
+            <mat-icon >person</mat-icon>
+            {{(user$ | async).displayName}}
+        </div>
+        <div *ngIf="!forTrainer"class="personal-training__body--who d-flex align-items-center my-2">
+            <mat-icon >person</mat-icon>
+            {{(trainer$ | async).displayName}}
+        </div>
+
+        <div class="personal-training__body--date d-flex align-items-center my-2">
+            <mat-icon >today</mat-icon>
+            {{training.dateStart | date: 'dd.MM.yyyy'}}
+        </div>
+        <div class="personal-training__body--time d-flex align-items-center my-2">
+            <mat-icon >watch_later</mat-icon>
+            {{training.dateStart | date: 'HH:mm'}} - {{training.dateEnd | date: 'HH:mm'}}
+        </div>
+
+    </div>
+</div>

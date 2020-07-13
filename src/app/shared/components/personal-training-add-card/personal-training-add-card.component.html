@@ -1,0 +1,46 @@
+<div [formGroup]="newPersonalForm" class="personal-training d-flex flex-column">
+    <div class="personal-training__header"></div>
+    <div class="personal-training__body d-flex flex-column">
+        <div class="personal-training__body--who d-flex align-items-center my-2">
+            <mat-icon class="plain-icon">person</mat-icon>
+            {{trainer.displayName}}
+        </div>
+        <div class="d-flex">
+            <div class="d-flex flex-column">
+                <div class="personal-training__body--date d-flex align-items-center my-2">
+                    <mat-icon class="plain-icon">today</mat-icon>
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" [matDatepickerFilter]="dateFilter.bind(this)" formControlName="dateStart">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <!-- {{newPersonalForm.controls.dateStart.value? (newPersonalForm.controls.dateStart.value | date : 'dd.MM.yyyy') : '--.--.----'}} -->
+                </div>
+                <div class="personal-training__body--time d-flex align-items-center my-2">
+                    <mat-icon class="plain-icon">watch_later</mat-icon>
+                    <mat-form-field>
+                        <mat-select formControlName="hourStart">
+                            <mat-option *ngFor="let hour of selectHours; let i=index;" [value]="hour.value" [disabled]="(notColideWithTrainer(hour.value) | async) === false || (notColideWithUser(hour.value) | async) === false">
+                                {{hour.value}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <input #time matInput type="time" min="06:00" list="hourDataList" formControlName="hourStart">
+                        <datalist id="hourDataList">
+                            <option *ngFor="let hour of selectHours; let i=index;" [value]="hour.value" [attr.readonly]="i%2===0">
+                        </datalist> -->
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="actions d-flex align-items-center justify-content-center flex-fill">
+                <button *ngIf="newPersonalForm.valid && (notColideWithUser(newPersonalForm.controls.hourStart.value) | async) === true && (notColideWithTrainer(newPersonalForm.controls.hourStart.value) | async) === true && (canAdd(newPersonalForm.controls.dateStartvalue) | async) === true" mat-mini-fab color="primary" (click)="save()">
+                    <mat-icon>save</mat-icon>
+                </button>
+                <div matTooltip="Wybrany termin koliduje z zajęciami Twoimi lub trenera! Wybierz inny termin!" [matTooltipClass]="'colision-tooltip'" *ngIf="(notColideWithUser(newPersonalForm.controls.hourStart.value) | async) === false || (notColideWithTrainer(newPersonalForm.controls.hourStart.value) | async) === false || (canAdd(newPersonalForm.controls.dateStartvalue) | async) === false">
+                    <button  mat-icon-button color="warn" [style.pointer-events]="'none'" (click)="$event.preventDefault()">
+                        <mat-icon>error</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

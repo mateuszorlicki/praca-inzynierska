@@ -44,27 +44,6 @@ export class UserPersonalEffects {
         ), {dispatch: false}
     );
 
-    // public signPersonal$ = createEffect(() =>
-    //     this.actions$.pipe(
-    //         ofType(fromActions.signPersonal),
-    //             switchMap(({personalTrainingID}) =>
-    //                 this.store$.pipe(
-    //                     select(fromUser.selectUserID),
-    //                     take(1),
-    //                     map((uid) => ({userID: uid, personalTrainingID}))
-    //                 )
-    //             ),
-    //         switchMap(({userID, personalTrainingID}) =>
-    //             this.store$.pipe(
-    //                 select(fromSelectors.selectUserPersonals),
-    //                 take(1),
-    //                 tap((userTraining) => console.log(userID, userTraining, personalTrainingID)),
-    //                 map((userTraining) => this.userPersonalService.signPersonal(userID, userTraining, personalTrainingID))
-    //             )
-    //         ),
-    //     ), { dispatch: false}
-    // );
-
     constructor(
         private actions$: Actions,
         private store$: Store,

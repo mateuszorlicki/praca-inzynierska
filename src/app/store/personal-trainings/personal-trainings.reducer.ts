@@ -15,7 +15,6 @@ export const initialState: State = {
 const personalTrainingReducer = createReducer(
     initialState,
     on(personalActions.getAllPersonalTrainingEventSuccess, (state, { personalTrainingEvents }) => {
-        console.log('TRAINNGS', personalTrainingEvents)
         return {
             ...state,
             personalTrainingEvents

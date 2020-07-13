@@ -2,8 +2,10 @@
  
     <ng-container>
         <mat-card>
-            <mat-card-header>
-                Twoje treningi personalne
+            <mat-card-header class="d-flex flex-column">
+                <h3>
+                    Twoje treningi personalne
+                </h3>
             </mat-card-header>
             <mat-card-content>                
                 <ng-container>
@@ -13,8 +15,10 @@
                             Brak zaakceptowanych treningów
                         </mat-list-item>
                         <mat-list-item *ngFor="let event of (acceptedTrainings$ | async)">
-                            <div class="alert alert-success">
-                                {{event.titleForTrainer}} | {{event.dateStart | date: 'dd.MM.yyyy   HH:mm'}} - {{event.dateEnd | date: 'HH:mm'}}
+                            <div class="d-flex align-items-center">
+                                <div class="alert alert-success">
+                                    <app-personal-training-card [training]="event" [forTrainer]="true"></app-personal-training-card>
+                                </div>
                             </div>
                         </mat-list-item>
                     </mat-list>
@@ -23,11 +27,19 @@
                     <h4>Oczekujące na akceptację</h4>
                     <mat-list>
                         <mat-list-item *ngIf="(notAcceptedTrainings$ | async).length === 0">
-                            Brak zaakceptowanych treningów
+                            Brak treningów do zaakceptowania
                         </mat-list-item>
                         <mat-list-item *ngFor="let event of (notAcceptedTrainings$ | async)">
-                            <div class="alert alert-warning">
-                                {{event.titleForTrainer}} | {{event.dateStart | date: 'dd.MM.yyyy   HH:mm'}} - {{event.dateEnd | date: 'HH:mm'}}
+                            <div class="d-flex align-items-center">
+                                <div class="alert alert-warning">
+                                    <app-personal-training-card [training]="event" [forTrainer]="true" [collision]="trainingCollides(event) | async"></app-personal-training-card>
+                                </div>
+                                <button mat-icon-button color="accent" [disabled]="trainingCollides(event) | async" (click)="acceptTraining(event)" aria-label="Example icon button with a vertical three dot icon">
+                                    <mat-icon>check</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="declineTraining(event)" aria-label="Example icon button with a vertical three dot icon">
+                                    <mat-icon>close</mat-icon>
+                                </button>   
                             </div>
                         </mat-list-item>
                     </mat-list>

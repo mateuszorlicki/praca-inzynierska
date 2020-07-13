@@ -29,6 +29,7 @@ import { AddEventModalComponent } from './components/user-panel/admin-panel/grou
 import { WeekdayPipe } from './pipes/weekday.pipe';
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { PersonalTrainingsTrainerComponent } from './components/personal-trainings-trainer/personal-trainings-trainer.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { PersonalTrainingsTrainerComponent } from './components/personal-trainin
     FormsModule,
     ReactiveFormsModule,
     ColorCircleModule,
+    SharedModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     TypeaheadModule.forRoot(),
     MatMomentDateModule,

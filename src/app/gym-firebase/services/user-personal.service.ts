@@ -23,35 +23,8 @@ export class UserPersonalService {
   setTrainer(userID: string, trainerID: string) {
     let data: UserPersonal = {
       userID,
-      trainerID,
-      personalTrainingIDs: []
+      trainerID
     }
     this.afs.collection(this.basePath).add(data);
   }
-
-  signPersonal(userID: string, trainerID: string, userPersonal: UserPersonal, personalTrainingID: string) {
-    if(userPersonal) {
-      let data: UserPersonal = {
-        ...userPersonal,
-        personalTrainingIDs: [
-          ...userPersonal.personalTrainingIDs,
-          personalTrainingID
-        ],
-        
-      }
-      return from(this.afs.doc(`${this.basePath}/${userPersonal.userPersonalID}`).set(data, {merge: true}));
-    } else {
-      let data: UserPersonal = {
-        userID,
-        trainerID,
-        personalTrainingIDs: [
-          ...userPersonal.personalTrainingIDs,
-          personalTrainingID
-        ],
-      }
-      this.afs.collection(this.basePath).add(data)
-    }
-
-  }
-
 }

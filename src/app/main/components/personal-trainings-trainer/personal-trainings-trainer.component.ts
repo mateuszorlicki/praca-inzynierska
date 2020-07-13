@@ -37,12 +37,20 @@ export class PersonalTrainingsTrainerComponent implements OnInit {
     this.store$.dispatch(fromPersonal.setTrainer({trainerID}))
   }
 
-  acceptTraining(personalTrainingEvent: PersonalTrainingEvent){ 
+  acceptTraining(event: PersonalTrainingEvent){ 
+    let personalTrainingEvent: PersonalTrainingEvent = {
+      ...event,
+      isAccepted: true
+    }
     this.store$.dispatch(fromPersonalTraining.acceptTraining({personalTrainingEvent}))
   }
 
   declineTraining(personalTrainingEvent: PersonalTrainingEvent){ 
     this.store$.dispatch(fromPersonalTraining.declineTraining({personalTrainingEvent}))
+  }
+
+  trainingCollides(personalTrainingEvent: PersonalTrainingEvent) {
+    return this.store$.pipe(select(fromPersonalTraining.selectTrainingCollides(personalTrainingEvent.eventID)))
   }
 
 }

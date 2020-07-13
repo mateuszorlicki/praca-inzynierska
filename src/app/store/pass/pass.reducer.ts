@@ -48,7 +48,7 @@ export const getCurrentPasses = (state: State) => state.userPassesCurrent;
 
 
 function isCurrentPass(pass: UserPass) {
-    let dateFrom = (<firebase.firestore.Timestamp>pass.validFrom).toDate();
-    let dateTo = (<firebase.firestore.Timestamp>pass.validTo).toDate();
+    let dateFrom = moment(pass.validFrom);
+    let dateTo = moment(pass.validTo);
     return moment().isBetween(dateFrom, dateTo);
 }

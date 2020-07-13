@@ -23,7 +23,6 @@ export interface UserTraining {
 export interface UserPersonal {
     userID: string;
     trainerID: string;
-    personalTrainingIDs: Array<string>;
     userPersonalID?: string;
 }
 

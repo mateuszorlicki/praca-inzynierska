@@ -17,25 +17,3 @@ export const selectUserPersonals = createSelector(
 //         return !state.userTrainings.trainingsIDs.includes(groupID);
 //     }
 // )
-
-export const selectCanUserAddPersonal = createSelector(
-    fromReducer.getUserPersonalState,
-    fromPass.selectCountOfPersonalTrainings,
-    (state, count) => {
-        if (!state.userPersonals) {
-            return true;
-        }
-        return count - state.userPersonals.personalTrainingIDs.length > 0;
-    }
-)
-
-export const selectCountUserLeftPersonal = createSelector(
-    fromReducer.getUserPersonalState,
-    fromPass.selectCountOfPersonalTrainings,
-    (state, count) => {
-        if (!state.userPersonals) {
-            return count;
-        }
-        return count - state.userPersonals.personalTrainingIDs.length;
-    }
-)

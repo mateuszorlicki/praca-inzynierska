@@ -45,3 +45,12 @@ export const selectAllGroupTrainingsWithData = createSelector(
         })
     }
 );
+
+export const selectTrainerTraining = (trainerID: string) => createSelector(
+    selectAllGroupTrainingEvents,
+    selectAllGroupTrainings,
+    (trainings, groups) => {
+        let trainerGroups = groups.filter(group => group.trainerID === trainerID);
+        return trainings.filter(training => trainerGroups.some(group => group.groupID === training.groupID))
+    }
+)
