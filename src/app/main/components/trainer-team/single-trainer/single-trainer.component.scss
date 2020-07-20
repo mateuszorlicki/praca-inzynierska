@@ -7,8 +7,14 @@
     height: 100px;
     border-radius: 50%;
     margin-right: 16px;
+    overflow: hidden;
+    img {
+        width: 100%;
+    }
 }
 
 .card {
     margin: 16px 0;
+    background-color: #323232;
+    color: white;
 }

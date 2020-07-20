@@ -16,6 +16,8 @@ export class PriceListComponent implements OnInit {
   allPasses$: Observable<Array<Pass>> = this.store$.pipe(select(fromPass.selectAllPasses));
   shouldBuyPass: boolean;
   isAdmin: boolean;
+
+  isLoggedIn$ = this.store$.pipe(select(fromUser.selectIsLoggedIn))
   
   passModalOpened: boolean = false;
   addEditPassModalOpened: boolean = false;

@@ -41,4 +41,46 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  showButton(path: string, user: UserProfile) {
+    let route = routesMap.find(r => r.path === path);
+    let sureRoles = user? user.roles : [Roles.GUEST];
+    return sureRoles.some(r => route.roles.includes(r));
+  }
+
 }
+
+const routesMap = [
+  {
+    path: 'trainer-team',
+    roles: [Roles.USER, Roles.USER_WITH_PASS, Roles.GUEST]
+  },
+  {
+    path: 'personal-trainings-trainer',
+    roles: [Roles.TRAINER]
+  },
+  {
+    path: 'personal-trainings',
+    roles: [Roles.USER, Roles.USER_WITH_PASS, Roles.GUEST]
+  },
+  {
+    path: 'training-courses-trainer',
+    roles: [Roles.TRAINER]
+  },
+  {
+    path: 'training-courses',
+    roles: [Roles.USER, Roles.USER_WITH_PASS, Roles.GUEST]
+  },
+  {
+    path: 'timetable',
+    roles: [Roles.USER, Roles.TRAINER]
+  },
+  {
+    path: 'price-list',
+    roles: [Roles.USER, Roles.USER_WITH_PASS, Roles.GUEST]
+  },
+  {
+    path: 'contact',
+    roles: [Roles.USER, Roles.USER_WITH_PASS, Roles.GUEST]
+  },
+  
+]

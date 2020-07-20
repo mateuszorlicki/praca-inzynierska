@@ -13,6 +13,7 @@ import { ContactComponent } from './main/components/contact/contact.component';
 import { UserPanelComponent } from './main/components/user-panel/user-panel.component';
 import { TrainerProfileComponent } from './main/components/trainer-team/trainer-profile/trainer-profile.component';
 import { PersonalTrainingsTrainerComponent } from './main/components/personal-trainings-trainer/personal-trainings-trainer.component';
+import { TrainingCoursesTrainerComponent } from './main/components/training-courses-trainer/training-courses-trainer.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   ]},
   { path: 'personal-trainings-trainer', component: PersonalTrainingsTrainerComponent, canActivate: [AuthGuard]},
   { path: 'personal-trainings', component: PersonalTrainingsComponent, canActivate: [AuthGuard]},
+  { path: 'training-courses-trainer', component: TrainingCoursesTrainerComponent, canActivate: [AuthGuard]},
   { path: 'training-courses', component: TrainingCoursesComponent},
   { path: 'timetable', component: TimetableComponent},
   { path: 'price-list', component: PriceListComponent},

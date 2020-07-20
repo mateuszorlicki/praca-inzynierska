@@ -1,14 +1,29 @@
 <div class="jumbotron">
-    <h1 class="display-4">Cześć!</h1>
-    <p class="lead">W tym miejscu znajdować się będzie strona główna siłowni.</p>
-    <div *ngIf="user$ | async as user">
-        <h4>
-            {{user.displayName}}
-        </h4>
-        <span>
-            {{user.email}}
-        </span>
-        <span>{{user['roles'] | json}}</span>
-    </div>
-    <hr class="my-4">
+    <mat-card>
+        <mat-card-header class="d-flex flex-column">
+            <h1>Cześć{{(user$ | async)? (' ' + (user$ | async).displayName) : ''}}! </h1>
+        </mat-card-header>
+        <mat-card-content>
+            <ng-container *ngIf="(isLoggedIn$ | async) === false">
+                <h3>
+                    Witaj na stronie siłowni <strong> Mateusz Orlicki - Gym & Fitness </strong>.
+                </h3>
+                <h3>
+                    Jeżeli jesteś naszym klientem, przejdź do strony <a [routerLink]="['/login']">logowania</a>.
+                </h3>
+                <h3>
+                    W przypadku, gdy zabłądziłeś tu po raz pierwszy: <strong>Witamy!</strong> i zachęcamy do rozejrzenia
+                    się. Miej jednak na uwadze, że część zawartości jest dostępna tylko dla <a [routerLink]="['/login']">zalogowanych</a> użytkowników
+                </h3>
+            </ng-container>
+            <ng-container *ngIf="(isLoggedIn$ | async) === true">
+                <h3>
+                    Witaj ponownie!
+                </h3>
+                <h3>
+                    Cieszymy się, że jesteś z nami! 
+                </h3>
+            </ng-container>
+        </mat-card-content>
+    </mat-card>
 </div>

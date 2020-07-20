@@ -1,11 +1,14 @@
 <div class="modal">
-    <div class="modal-content">
-      <div class="header">
-        <h4 >{{pass? 'Edytuj' : 'Dodaj'}} karnet</h4>
-        <button type="button" class="close" (click)="close()">
-          <span>&times;</span>
+  <mat-card style="width:600px;">
+    <mat-card-header class="d-flex flex-column">
+      <div class="d-flex justify-content-between">
+        <h1 >{{pass? 'Edytuj' : 'Dodaj'}} karnet</h1>
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
         </button>
       </div>
+    </mat-card-header>
+    <mat-card-content>
       <div class="content">
         <form [formGroup]="passForm">
             <div class="form-group row">
@@ -50,13 +53,16 @@
             </div>
           </form>
       </div>
-      <div class="footer">
-          <button class="btn btn-outline-secondary" (click)="close()">
-              Anuluj
-          </button>
-          <button class="btn btn-primary" (click)="savePass()">
-              Zapisz
-          </button>
-      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="d-flex justify-content-between">
+        <button mat-button (click)="close()">
+            Anuluj
+        </button>
+        <button mat-raised-button color="primary" (click)="savePass()">
+            Zapisz
+        </button>
     </div>
+    </mat-card-actions>
+  </mat-card>
   </div>

@@ -30,6 +30,8 @@ import { WeekdayPipe } from './pipes/weekday.pipe';
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { PersonalTrainingsTrainerComponent } from './components/personal-trainings-trainer/personal-trainings-trainer.component';
 import { SharedModule } from '../shared/shared.module';
+import { TrainingCoursesTrainerComponent } from './components/training-courses-trainer/training-courses-trainer.component';
+import { NeedLoginComponent } from './components/need-login/need-login.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { SharedModule } from '../shared/shared.module';
     PersonalTrainingsComponent,
     PersonalTrainingsTrainerComponent,
     TrainingCoursesComponent,
+    TrainingCoursesTrainerComponent,
     TimetableComponent,
     PriceListComponent,
     ContactComponent,
@@ -54,6 +57,7 @@ import { SharedModule } from '../shared/shared.module';
     GroupTrainingsTimetableComponent,
     AddEventModalComponent,
     WeekdayPipe,
+    NeedLoginComponent,
   ],
   exports: [HeaderComponent],
   imports: [

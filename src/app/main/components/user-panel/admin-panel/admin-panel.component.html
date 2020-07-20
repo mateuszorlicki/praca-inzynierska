@@ -3,7 +3,7 @@
         <app-group-trainings-timetable></app-group-trainings-timetable>
     </mat-tab>
     <mat-tab label="Administratorzy">
-        <h3 class="tab-title">W tej sekcji możesz dodawać administratorów serwisu.</h3>
+        <h2 class="tab-title">W tej sekcji możesz dodawać administratorów serwisu.</h2>
         <div class="section d-flex justify-content-around">
             <div class="d-flex flex-column w-100">
                 <span>
@@ -36,7 +36,7 @@
         </div>
     </mat-tab>
         <mat-tab label="Kadra trenerska">
-        <h3 class="tab-title">W tej sekcji możesz dodawać trenerów.</h3>
+        <h2 class="tab-title">W tej sekcji możesz dodawać trenerów.</h2>
         <div class="section d-flex justify-content-around">
             <div class="d-flex flex-column w-100">
                 <span>
@@ -46,7 +46,7 @@
                     <mat-list-item *ngFor="let user of noTrainerUsers">
                         <img [src]="user.photoURL"> {{user.displayName}}
                         <span class="fill-remaining-space"></span>
-                        <button mat-raised-button color="primary" (click)="addRole(user, Roles.TRAINER)">
+                        <button mat-raised-button color="primary" (click)="switchRole(user,[Roles.TRAINER],[Roles.USER])">
                             Dodaj
                             </button>
                     </mat-list-item>
@@ -60,7 +60,7 @@
                     <mat-list-item *ngFor="let user of trainerUsers">
                         <img [src]="user.photoURL"> {{user.displayName}}
                         <span class="fill-remaining-space"></span>
-                        <button mat-raised-button color="warn" (click)="removeRole(user, Roles.TRAINER)">
+                        <button mat-raised-button color="warn" (click)="switchRole(user,[Roles.USER],[Roles.TRAINER])">
                             Usuń
                         </button>
                     </mat-list-item>
@@ -73,6 +73,9 @@
     </mat-tab>
     <mat-tab label="Zajęcia grupowe">
         <app-group-trainings></app-group-trainings>
+    </mat-tab>
+    <mat-tab label="Cennik">
+        <app-price-list></app-price-list>
     </mat-tab>
 
 </mat-tab-group>

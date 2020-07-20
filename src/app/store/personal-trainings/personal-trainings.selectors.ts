@@ -58,7 +58,7 @@ export const selectNotAcceptedPersonalTrainingsCount = createSelector(
 )
 
 export const selectTrainingCollides = (trainingID: string) => createSelector(
-    selectNotAcceptedPersonalTrainings,
+    selectAllPersonalTrainingEvents,
     (trainings) => {
         let trainingToCheck = trainings.find(training => training.eventID === trainingID);
         let trainingsToMatch = trainings.filter(training => training.eventID !== trainingID);

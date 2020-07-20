@@ -1,3 +1,7 @@
 ::ng-deep .cal-drag-active {
     display: none;
 }
+
+::ng-deep .cal-event-title {
+    white-space: pre-wrap;
+}

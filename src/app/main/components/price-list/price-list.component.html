@@ -1,55 +1,64 @@
 <div class="jumbotron">
-    <h1 class="display-4">Cześć!</h1>
-    <p class="lead">W tym miejscu znajdziesz cennik usług naszej siłowni</p>
-    <hr class="my-4">
-    <div class="card  ">
-        <div class="card-body">
-            <table class="table table-dark table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Nazwa karnetu</th>
-                    <th scope="col">Normalny</th>
-                    <th scope="col">Studencki/Senior</th>
-                    <th scope="col" class="d-flex justify-content-between" *ngIf="shouldBuyPass || isAdmin">Akcje <button *ngIf="isAdmin" (click)="editPass()" class="btn btn-sm btn-success">Dodaj</button></th>
-                  </tr>
-                </thead>
-                <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-                  <tr  *ngFor="let pass of allPasses$ | async" cdkDrag>
-                    <td [innerHTML]="pass.name"></td>
-                    <td>{{pass.priceNormal}},00zł</td>
-                    <td>{{pass.priceDiscount}},00zł</td>
-                    <td *ngIf="shouldBuyPass"><button class="btn btn-sm btn-primary btn-block" (click)="buyPass(pass)">Kup</button></td>
-                    <td *ngIf="isAdmin">
-                      <button class="btn btn-sm btn-primary btn-block" (click)="editPass(pass)">Edytuj</button>
-                      <button class="btn btn-sm btn-danger btn-block" (click)="openDeleteModal(pass)">Usuń</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-    </div>
+  <ng-container>
+    <app-need-login *ngIf="(isLoggedIn$ | async) === false"></app-need-login>
+  </ng-container>
+  <mat-card class="my-2">
+    <mat-card-header class="d-flex flex-column">
+      <h1>Cennik karnetów</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nazwa karnetu</th>
+            <th scope="col">Normalny</th>
+            <th scope="col" >Studencki/Senior</th>
+            <th scope="col" class="d-flex justify-content-end align-items-end" *ngIf="shouldBuyPass || isAdmin">Akcje <button *ngIf="isAdmin" (click)="editPass()"  mat-icon-button color="accent"><mat-icon>add_circle_outline</mat-icon></button></th>
+          </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+          <tr  *ngFor="let pass of allPasses$ | async" cdkDrag>
+            <td [innerHTML]="pass.name"></td>
+            <td>{{pass.priceNormal}},00zł</td>
+            <td>{{pass.priceDiscount}},00zł</td>
+            <td *ngIf="shouldBuyPass" class="d-flex justify-content-end"><button mat-icon-button color="primary" (click)="buyPass(pass)"><mat-icon>shopping_cart</mat-icon></button></td>
+            <td *ngIf="isAdmin" class="d-flex justify-content-end">
+              <button mat-icon-button color="primary" (click)="editPass(pass)"><mat-icon>edit</mat-icon></button>
+              <button mat-icon-button color="warn" (click)="openDeleteModal(pass)"><mat-icon>delete</mat-icon></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
 </div>
 
 <app-buy-pass-modal *ngIf="passModalOpened" [pass]="selectedPass" (onClose)="closeModal()"></app-buy-pass-modal>
 <app-add-edit-pass-modal *ngIf="addEditPassModalOpened" [pass]="selectedPass" (onClose)="closeModal()"></app-add-edit-pass-modal>
 <div *ngIf="deleteConfirmModalOpened" class="modal">
-  <div class="modal-content">
-    <div class="header">
-      <h4 >Usuń karnet</h4>
-      <button type="button" class="close" (click)="closeModal()">
-        <span>&times;</span>
-      </button>
-    </div>
-    <div class="content">
-      <h6>Czy na pewno chcesz usunąć karnet?</h6>
-    </div>
-    <div class="footer">
-        <button class="btn btn-outline-secondary" (click)="closeModal()">
+  <mat-card style="width: 600px;">
+    <mat-card-header class="d-flex flex-column">
+      <div class="d-flex justify-content-between">
+        <h2 >Usuń karnet</h2>
+        <button mat-icon-button (click)="closeModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="d-flex justify-content-center align-items-center">
+        <h3>Czy na pewno chcesz usunąć karnet?</h3>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="d-flex justify-content-between">
+        <button mat-button (click)="closeModal()">
             Anuluj
         </button>
-        <button class="btn btn-danger" (click)="deletePass(selectedPass)">
+        <button mat-raised-button color="warn" (click)="deletePass(selectedPass)">
             Usuń
         </button>
     </div>
-  </div>
+    </mat-card-actions>
+  </mat-card>
 </div>

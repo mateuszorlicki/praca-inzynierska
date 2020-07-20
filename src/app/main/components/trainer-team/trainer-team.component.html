@@ -1,6 +1,10 @@
 <div class="jumbotron">
-    <h1 class="display-4">Cześć!</h1>
-    <p class="lead">W tym miejscu zapoznasz się z naszą wspaniałą kadrą trenerską!</p>
-    <hr class="my-4">
-    <app-single-trainer *ngFor="let trainer of trainers$ | async" [trainer]="trainer"></app-single-trainer>
+    <mat-card>
+        <mat-card-header class="d-flex flex-column">
+            <h1>Kadra trenerska</h1>
+        </mat-card-header>
+        <mat-card-content>
+            <app-single-trainer *ngFor="let trainer of trainers$ | async" [trainer]="trainer"></app-single-trainer>
+        </mat-card-content>
+    </mat-card>
 </div>

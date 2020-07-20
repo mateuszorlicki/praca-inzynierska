@@ -3,16 +3,21 @@
     <ng-container>
         <mat-card>
             <mat-card-header class="d-flex flex-column">
-                <h3>
+                <h1>
                     Twoje treningi personalne
-                </h3>
+                </h1>
             </mat-card-header>
             <mat-card-content>                
                 <ng-container>
-                    <h4>Zaakceptowane</h4>
+                    <h2>Zaakceptowane</h2>
                     <mat-list>
                         <mat-list-item *ngIf="(acceptedTrainings$ | async).length === 0">
-                            Brak zaakceptowanych treningów
+                            <div class="alert alert-success">
+                                <div class="d-flex align-items-center" style="min-width:200px">
+                                    <mat-icon>event_busy</mat-icon>
+                                    Brak treningów
+                                </div>
+                            </div>
                         </mat-list-item>
                         <mat-list-item *ngFor="let event of (acceptedTrainings$ | async)">
                             <div class="d-flex align-items-center">
@@ -24,10 +29,15 @@
                     </mat-list>
                 </ng-container>
                 <ng-container>
-                    <h4>Oczekujące na akceptację</h4>
+                    <h2>Oczekujące na akceptację</h2>
                     <mat-list>
                         <mat-list-item *ngIf="(notAcceptedTrainings$ | async).length === 0">
-                            Brak treningów do zaakceptowania
+                                <div class="alert alert-warning">
+                                    <div class="d-flex align-items-center" style="min-width:200px">
+                                        <mat-icon>event_busy</mat-icon>
+                                        Brak treningów
+                                    </div>
+                                </div>
                         </mat-list-item>
                         <mat-list-item *ngFor="let event of (notAcceptedTrainings$ | async)">
                             <div class="d-flex align-items-center">

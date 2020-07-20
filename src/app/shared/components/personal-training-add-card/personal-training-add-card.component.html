@@ -1,4 +1,9 @@
 <div [formGroup]="newPersonalForm" class="personal-training d-flex flex-column">
+    <div class="collision" matTooltip="Wybrany termin koliduje z zajęciami Twoimi lub trenera! Wybierz inny termin!" [matTooltipClass]="'colision-tooltip'" *ngIf="(notColideWithUser(newPersonalForm.controls.hourStart.value) | async) === false || (notColideWithTrainer(newPersonalForm.controls.hourStart.value) | async) === false || (canAdd(newPersonalForm.controls.dateStartvalue) | async) === false">
+        <button  mat-icon-button color="warn" [style.pointer-events]="'none'" (click)="$event.preventDefault()">
+            <mat-icon>error</mat-icon>
+        </button>
+    </div>
     <div class="personal-training__header"></div>
     <div class="personal-training__body d-flex flex-column">
         <div class="personal-training__body--who d-flex align-items-center my-2">
@@ -35,11 +40,6 @@
                 <button *ngIf="newPersonalForm.valid && (notColideWithUser(newPersonalForm.controls.hourStart.value) | async) === true && (notColideWithTrainer(newPersonalForm.controls.hourStart.value) | async) === true && (canAdd(newPersonalForm.controls.dateStartvalue) | async) === true" mat-mini-fab color="primary" (click)="save()">
                     <mat-icon>save</mat-icon>
                 </button>
-                <div matTooltip="Wybrany termin koliduje z zajęciami Twoimi lub trenera! Wybierz inny termin!" [matTooltipClass]="'colision-tooltip'" *ngIf="(notColideWithUser(newPersonalForm.controls.hourStart.value) | async) === false || (notColideWithTrainer(newPersonalForm.controls.hourStart.value) | async) === false || (canAdd(newPersonalForm.controls.dateStartvalue) | async) === false">
-                    <button  mat-icon-button color="warn" [style.pointer-events]="'none'" (click)="$event.preventDefault()">
-                        <mat-icon>error</mat-icon>
-                    </button>
-                </div>
             </div>
         </div>
     </div>

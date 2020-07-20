@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { UserProfile } from 'src/app/shared/models/user.models';
 import { Store, select } from '@ngrx/store';
 import * as fromUsers from '../../../../store/users';
-
+import * as fromGroupTrainings from '../../../../store/group-trainings'
 @Component({
   selector: 'app-trainer-profile',
   templateUrl: './trainer-profile.component.html',
@@ -25,6 +25,12 @@ export class TrainerProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  getTrainerGroups(trainerID) {
+    return this.store$.pipe(
+      select(fromGroupTrainings.selectTrainerGroupTrainingsEventsById(trainerID)),
+      );
   }
 
 }

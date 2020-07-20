@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/gym-firebase/services/auth.service';
 import { Observable } from 'rxjs';
-import { User } from 'firebase';
+import { Store, select } from '@ngrx/store';
+
+import * as fromUser from '../../../store/user';
+import { UserProfile } from 'src/app/shared/models/user.models';
 
 @Component({
   selector: 'app-main',
@@ -10,11 +13,11 @@ import { User } from 'firebase';
 })
 export class MainComponent implements OnInit {
 
-  user$: Observable<User>;
-  constructor(private authService: AuthService) { }
+  isLoggedIn$: Observable<boolean> = this.store$.pipe(select(fromUser.selectIsLoggedIn))
+  user$: Observable<UserProfile> = this.store$.pipe(select(fromUser.selectUserProfile))
+  constructor(private store$: Store) { }
 
   ngOnInit(): void {
-    this.user$ = this.authService.authState$;
   }
 
 }

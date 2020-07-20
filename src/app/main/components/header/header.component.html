@@ -1,12 +1,13 @@
 <mat-toolbar>
-  <span class="p-1">Mateusz Orlicki<br/>Gym & Fitness</span>
-  <button mat-button [routerLink]="'/trainer-team'"> Kadra trenerska </button>
-  <button *ngIf="!(user$ | async).roles.includes(Roles.TRAINER)" mat-button [routerLink]="'/personal-trainings'"> Treningi personalne </button>
-  <button *ngIf="(user$ | async).roles.includes(Roles.TRAINER)" mat-button [routerLink]="'/personal-trainings-trainer'"> Treningi personalne </button>
-  <button mat-button [routerLink]="'/training-courses'"> Zajęcia grupowe </button>
-  <button mat-button [routerLink]="'/timetable'">Twój grafik zajęć </button>
-  <button mat-button [routerLink]="'/price-list'"> Cennik </button>
-  <button mat-button [routerLink]="'/contact'"> Kontakt </button>
+  <a class="p-1 text-white text-center" [routerLink]="'/main'">Mateusz Orlicki<br/>Gym & Fitness</a>
+  <button *ngIf="showButton('trainer-team', (user$ | async))" mat-button [routerLink]="'/trainer-team'"> Kadra trenerska </button>
+  <button *ngIf="showButton('personal-trainings', (user$ | async))" mat-button [routerLink]="'/personal-trainings'"> Treningi personalne </button>
+  <button *ngIf="showButton('personal-trainings-trainer', (user$ | async))" mat-button [routerLink]="'/personal-trainings-trainer'"> Treningi personalne </button>
+  <button *ngIf="showButton('training-courses', (user$ | async))" mat-button [routerLink]="'/training-courses'"> Zajęcia grupowe </button>
+  <button *ngIf="showButton('training-courses-trainer', (user$ | async))" mat-button [routerLink]="'/training-courses-trainer'"> Zajęcia grupowe </button>
+  <button *ngIf="showButton('timetable', (user$ | async))" mat-button [routerLink]="'/timetable'">Twój grafik zajęć </button>
+  <button *ngIf="showButton('price-list', (user$ | async))" mat-button [routerLink]="'/price-list'"> Cennik </button>
+  <button *ngIf="showButton('contact', (user$ | async))" mat-button [routerLink]="'/contact'"> Kontakt </button>
   <span class="fill-remaining-space"></span>
   <button mat-button *ngIf="(isLoggedIn$ | async) === true && (user$ | async) as user" [routerLink]="'/profile'" class="user">
     <div class="user__data">
@@ -16,4 +17,5 @@
       </div>
     </div>
   </button>
+  <button *ngIf="(isLoggedIn$ | async) === false" mat-raised-button color="primary" (click)="login()">Login</button>
 </mat-toolbar>

@@ -4,6 +4,7 @@ import * as fromTrainingGroups from '../../../store/group-trainings';
 import * as fromPass from '../../../store/pass';
 import * as fromUserTraining from '../../../store/user-training';
 import * as fromGroupTraining from '../../../store/group-trainings';
+import * as fromUser from '../../../store/user';
 import { GroupTraining, GroupTrainingEvent } from 'src/app/shared/models/group-training.model';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -32,6 +33,8 @@ export class TrainingCoursesComponent implements OnInit {
   trainings$: Observable<Array<GroupTrainingEvent>>;
   count$: Observable<number>;
   userGroups$: Observable<UserTraining>;
+  isLoggedIn$ = this.store$.pipe(select(fromUser.selectIsLoggedIn))
+
   constructor(
     private store$: Store,
     private groupTrainingService: GroupTrainingService,
@@ -76,4 +79,5 @@ export class TrainingCoursesComponent implements OnInit {
     this.events = [...this.events];
     this.cdr.detectChanges();
   }
+  
 }

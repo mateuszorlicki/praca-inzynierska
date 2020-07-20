@@ -5,6 +5,7 @@ import { GymFirebaseModule } from '../gym-firebase/gym-firebase.module';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginRequiredComponent } from './components/login-required/login-required.component';
+import { MaterialModule } from '../material.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { LoginRequiredComponent } from './components/login-required/login-requir
     CommonModule,
     ReactiveFormsModule,
     GymFirebaseModule,
-    SharedModule
+    SharedModule,
+    MaterialModule
   ]
 })
 export class AuthModule { }

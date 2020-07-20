@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup = this.fb.group({
     login: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required, Validators.minLength(6)])
-  });
+  }, { updateOn: 'change' });
 
   loginWithEmailAndPassword() {
     if(this.loginForm.valid) {
@@ -52,6 +52,8 @@ export class LoginComponent implements OnInit {
 
   toggleRegisterForm() {
     this.registerForm = !this.registerForm;
+    this.loginForm.reset();
+
     if (this.registerForm) {
       this.loginForm.addControl('fullname', new FormControl('', [Validators.required]));
     } else {

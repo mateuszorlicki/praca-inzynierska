@@ -1,0 +1,24 @@
+::ng-deep .contact {
+    mat-icon {
+        font-size: 32px !important;
+        width: 32px !important;
+        height: 32px !important;
+    
+    }
+} 
+
+.contact {
+    width: 50%;
+    .contact-text {
+        font-size: 24px !important;
+    }
+    .data {
+        padding: 24px 36px;
+    }
+
+}
+
+:host {
+    display: flex;
+    justify-content: center;
+}

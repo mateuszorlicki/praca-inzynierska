@@ -2,7 +2,7 @@
     <ng-container *ngIf="(count$ | async) > -1">
         <mat-card>
             <mat-card-header class="d-flex flex-column">
-               <h3>Status karnetu</h3> 
+               <h1>Status karnetu</h1> 
             </mat-card-header>
             <mat-card-content>
                 <div class="alert alert-danger" *ngIf="(count$ | async) === 0">
@@ -21,7 +21,7 @@
     <ng-container *ngIf="!userPersonal && (count$ | async) > 0">
         <mat-card class="mt-4">
             <mat-card-header class="d-flex flex-column">
-                <h3>Trenerzy</h3>
+                <h1>Trenerzy</h1>
                 <p>Wygląda na to, że nie wybrałeś jeszcze swojego trenera! Zapoznaj się z naszą <a [routerLink]="['/trainer-team']">kadrą trenerską</a>, a potem wybierz osobę, która pomoże Ci rozwinąć skrzydła na siłowni!</p>
             </mat-card-header>
             <mat-card-content>
@@ -29,7 +29,10 @@
                     <mat-list-item *ngFor="let trainer of trainers$ | async" role="listitem">
                         <div class="d-flex align-items-center justify-content-between w-100">
                             <div class="trainer-data d-flex align-items-center justify-content-between">
-                                <img class="profile-image" [src]="trainer.photoURL"/> {{trainer.displayName}}
+                                <div class="profile-image">
+                                    <img [src]="trainer.photoURL"/>
+                                </div>
+                                 {{trainer.displayName}}
                             </div>
                             <div class="trainer-actions">
                                 <button mat-raised-button  color="primary" (click)="setTrainer(trainer.uid)">Wybierz mnie!</button>
@@ -42,7 +45,7 @@
     </ng-container>
     <ng-container *ngIf="userPersonal">
         <mat-card *ngIf="(getTrainer() | async) as trainer">
-            <mat-card-header>
+            <mat-card-header class="d-flex flex-column">
                 Twoje treningi personalne
             </mat-card-header>
             <mat-card-content>                
@@ -62,7 +65,12 @@
                     <h4>Zaakceptowane</h4>
                     <mat-list>
                         <mat-list-item *ngIf="(acceptedTrainings$ | async).length === 0">
-                            Brak zaakceptowanych treningów
+                            <div class="alert alert-success">
+                                <div class="d-flex align-items-center" style="min-width:200px">
+                                    <mat-icon>event_busy</mat-icon>
+                                    Brak treningów
+                                </div>
+                            </div>
                         </mat-list-item>
                         <mat-list-item *ngFor="let event of (acceptedTrainings$ | async)">
                             <div class="d-flex align-items-center">
@@ -77,7 +85,12 @@
                     <h4>Oczekujące na akceptację</h4>
                     <mat-list>
                         <mat-list-item *ngIf="(notAcceptedTrainings$ | async).length === 0">
-                            Brak oczekujących treningów
+                            <div class="alert alert-warning">
+                                <div class="d-flex align-items-center" style="min-width:200px">
+                                    <mat-icon>event_busy</mat-icon>
+                                    Brak treningów
+                                </div>
+                            </div>
                         </mat-list-item>
                         <mat-list-item *ngFor="let event of (notAcceptedTrainings$ | async)">
                             <div class="d-flex align-items-center">

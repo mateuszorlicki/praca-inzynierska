@@ -48,4 +48,8 @@ export class UserPanelComponent implements OnInit {
 
   }
 
+  logout() {
+    this.store$.dispatch(fromUser.userLogOut());
+  }
+
 }

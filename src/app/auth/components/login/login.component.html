@@ -1,32 +1,44 @@
-<div class="login__container">
-  <h3>Zaloguj się</h3>
-  <form [formGroup]="loginForm">
-    <div class="form-group">
-      <label for="loginInput">Adres email</label>
-      <input type="email" class="form-control" [class.is-valid]="loginForm.controls.login.valid" [class.is-invalid]="!loginForm.controls.login.valid" id="loginInput" aria-describedby="emailHelp" formControlName="login">
-      <div *ngIf="!loginForm.controls.login.valid" class="invalid-feedback">
-        Wprowadź prawidłowy e-mail
+  <mat-card>
+    <mat-card-header class="d-flex flex-column">
+      <div class="d-flex align-items-center">
+        <mat-icon *ngIf="registerForm" style="margin: 0 0 16px; cursor: pointer;" (click)="toggleRegisterForm()">arrow_back</mat-icon>
+        <h1>Zaloguj się</h1>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="passwordInput">Hasło</label>
-      <input type="password" class="form-control" [class.is-valid]="loginForm.controls.password.valid" [class.is-invalid]="!loginForm.controls.password.valid" id="passwordInput" formControlName="password">
-      <div *ngIf="!loginForm.controls.password.valid" class="invalid-feedback">
-        Hasło mu zawierać 6 znaków!
-      </div>
-    </div>
-    <div *ngIf="registerForm" class="form-group">
-      <label for="fullnameInput">Imię i nazwisko</label>
-      <input type="text" class="form-control" [class.is-valid]="loginForm.controls.fullname.valid" [class.is-invalid]="!loginForm.controls.fullname.valid" id="fullnameInput" formControlName="fullname">
-      <div *ngIf="!loginForm.controls.fullname.valid" class="invalid-feedback">
-        Podaj imię i nazwisko
-      </div>
-    </div>
-    <button (click)="registerForm? toggleRegisterForm() : loginWithEmailAndPassword()" class="btn btn-primary btn-block">Zaloguj</button>
-    <button (click)="registerForm? registerWithEmailAndPassword() : toggleRegisterForm()"  class="btn btn-outline-primary btn-block">Zarejestruj</button>
-    <button class="btn btn-secondary btn-block" (click)="loginWithGoogle()">
-      Zaloguj z Google
-    </button>
-  </form>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm">
+        <div class="form-group">
+          <label for="loginInput">Adres email</label>
+          <input type="email" class="form-control" [class.is-valid]="loginForm.controls.login.valid" [class.is-invalid]="!loginForm.controls.login.valid" id="loginInput" aria-describedby="emailHelp" formControlName="login">
+          <div *ngIf="loginForm.controls.login.touched && !loginForm.controls.login.valid" class="invalid-feedback">
+            Wprowadź prawidłowy e-mail
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="passwordInput">Hasło</label>
+          <input type="password" class="form-control" [class.is-valid]="loginForm.controls.password.valid" [class.is-invalid]="!loginForm.controls.password.valid" id="passwordInput" formControlName="password">
+          <div *ngIf="loginForm.controls.password.touched && !loginForm.controls.password.valid" class="invalid-feedback">
+            Hasło mu zawierać 6 znaków!
+          </div>
+        </div>
+        <div *ngIf="registerForm" class="form-group">
+          <label for="fullnameInput">Imię i nazwisko</label>
+          <input type="text" class="form-control" [class.is-valid]="loginForm.controls.fullname.valid" [class.is-invalid]="!loginForm.controls.fullname.valid" id="fullnameInput" formControlName="fullname">
+          <div *ngIf="loginForm.controls.fullname.touched && !loginForm.controls.fullname.valid" class="invalid-feedback">
+            Podaj imię i nazwisko
+          </div>
+        </div>
+        <div class="d-flex my-2">
+          <button *ngIf="!registerForm" (click)="registerForm? toggleRegisterForm() : loginWithEmailAndPassword()" mat-raised-button color="primary" class="w-100 mx-2">Zaloguj</button>
+          <button (click)="registerForm? registerWithEmailAndPassword() : toggleRegisterForm()"  mat-raised-button class="w-100 mx-2" [color]="registerForm? 'primary': ''">Zarejestruj</button>
+        </div>
+        <div class="d-flex my-2">
+          <button mat-stroked-button class="w-100 mx-2" (click)="loginWithGoogle()">
+            Zaloguj z Google
+          </button>
+        </div>
 
-  </div>
+      </form>
+    </mat-card-content>
+
+  </mat-card>

@@ -1,0 +1,21 @@
+<div class="jumbotron">
+    <mat-card class="mt-4">
+        <mat-card-header class="d-flex flex-column">
+            <h1>Twoje grupy </h1>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list role="list">
+                <mat-list-item *ngFor="let training of trainings$ | async" role="listitem">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div class="training-data d-flex align-items-center justify-content-between">
+                            <color-circle class="presentation-circle" [colors]="[training.color]"></color-circle>
+                            {{training.title}} - {{training.byweekday | weekday}}, {{training.hourStart}} -
+                            {{training.hourEnd}}
+                        </div>
+                    </div>
+                </mat-list-item>
+                <h3 *ngIf="(trainings$ | async).length === 0"> Nie prowadzisz obecnie żadnych zajęć. Jeżeli uważasz, że powinno tutaj coś być, skontaktuj się z Administratorem</h3>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>

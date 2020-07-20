@@ -1,4 +1,6 @@
 .personal-training {
+    position: relative;
+
     min-width: 200px;
     .plain-icon {
         margin-right: 6px;
@@ -44,4 +46,10 @@
 
 .colision-tooltip {
     background-color: #f44336 !important;
+}
+
+.collision {
+    position: absolute;
+    right: 0;
+    top: 0;
 }

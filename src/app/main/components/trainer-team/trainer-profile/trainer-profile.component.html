@@ -1,13 +1,34 @@
-<div class="jumbotron">
-    <app-single-trainer [trainer]="trainer$ | async"></app-single-trainer>
-    <hr class="my-4">
-    <div class="card  ">
-        <div class="card-body">
-            <h3>O mnie
+<div class="jumbotron" *ngIf="(trainer$ | async) as trainer">
+    <app-single-trainer [trainer]="trainer"></app-single-trainer>
+    <mat-card>
+        <mat-card-header class="d-flex flex-column">
+            <h1>O mnie
+            </h1>
+        </mat-card-header>
+        <mat-card-content>
+            <h3 >
+                {{trainer.aboutMe}}
             </h3>
-            <span>
-                {{(trainer$ | async).aboutMe}}
-            </span>
-        </div>
-    </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="my-3">
+        <mat-card-header class="d-flex flex-column">
+            <h1>Moje zajęcia
+            </h1>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list role="list">
+                <mat-list-item *ngFor="let training of getTrainerGroups(trainer.uid) | async" role="listitem">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div class="training-data d-flex align-items-center justify-content-start">
+                            <color-circle class="presentation-circle" [colors]="[training.color]"></color-circle>
+                            {{training.title}} - {{training.byweekday | weekday}}, {{training.hourStart}} -
+                            {{training.hourEnd}}
+                        </div>
+                    </div>
+                </mat-list-item>
+                <h3 *ngIf="(getTrainerGroups(trainer.uid) | async).length === 0"> Ten trener nie prowadzi żadnych zajęć</h3>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
 </div>

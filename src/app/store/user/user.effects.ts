@@ -61,7 +61,7 @@ export class UserEffects {
                         return fromActions.getProfileRequest({uid: response.user.uid})
                     }
                 }),
-                tap(() => { this.router.navigate(['']) })
+                tap(() => { this.router.navigate(['']); })
             ))
         )
     );
@@ -79,13 +79,14 @@ export class UserEffects {
             ofType(fromActions.userRegisterWithEmail),
             switchMap(({credentials, displayName}) => this.authService.reqisterWithEmailAndPassword(credentials).pipe(
                 map(response => {
+                    let isWomen = displayName.split(' ')[0][displayName.split(' ')[0].length - 1] === 'a'
                     const newUser: UserProfile = {
                         uid: response.user.uid,
                         displayName: displayName,
                         firstName: displayName.split(' ')[0],
                         lastName: displayName.split(' ')[1],
                         email: response.user.email,
-                        photoURL: 'https://cdn1.iconfinder.com/data/icons/sport-avatar-6/64/29-avatar-fitness-weightlifter-weightlifting-gymnast-sports-gym-512.png',
+                        photoURL: isWomen? 'https://image.flaticon.com/icons/svg/145/145852.svg' : 'https://image.flaticon.com/icons/svg/145/145867.svg',
                         roles: [Roles.USER]
                     }
                     return fromActions.userLogInWithEmail({credentials: credentials, newUser})
@@ -122,6 +123,12 @@ export class UserEffects {
         )
     );
 
+    public userLoggedOut$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(fromActions.userLogOut),
+                tap(() => this.router.navigate(['login']))
+        ), {dispatch: false}
+    );
 
     constructor(
         private actions$: Actions,

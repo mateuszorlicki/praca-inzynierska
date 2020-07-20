@@ -23,6 +23,16 @@ export class AdminPanelComponent implements OnInit {
     private store$: Store<fromUsers.State>
   ) { }
 
+  switchRole(user: UserProfile, rolesToAdd: Array<Roles>, rolesToRemove: Array<Roles>) {
+    let data: UserProfile = {
+      roles: [...user.roles, ...rolesToAdd]
+    }
+    data = {
+      roles: data.roles.filter(r => !rolesToRemove.includes(r))
+    }
+    this.store$.dispatch(fromUsers.updateUser({ uid: user.uid, user: data}))
+  }
+
   addRole(user: UserProfile, role: Roles) {
     const data: UserProfile = {
       roles: [...user.roles, role]

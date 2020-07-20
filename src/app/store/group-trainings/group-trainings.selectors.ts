@@ -2,6 +2,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromReducer from './group-trainings.reducer';
 import * as fromRoom from '../training-room/training-room.reducer'
 import * as fromUsers from '../users/users.reducer';
+import * as fromUser from '../user';
 import * as fromUserTraining from '../user-training';
 
 export const selectAllGroupTrainings = createSelector(
@@ -23,6 +24,25 @@ export const selectUserGroupTrainingsEvents = createSelector(
             return [];
         }
         return allEvents.filter(e => userTraining.trainingsIDs.includes(e.eventID))
+    }
+);
+
+export const selectTrainerGroupTrainingsEvents = createSelector(
+    selectAllGroupTrainingEvents,
+    selectAllGroupTrainings,
+    fromUser.selectUserID,
+    (allEvents, allGroups, trainerID) => {
+        let filteredGroups = allGroups.filter(group => group.trainerID === trainerID);
+        return allEvents.filter(event => filteredGroups.some(g => g.groupID === event.groupID));
+    }
+)
+
+export const selectTrainerGroupTrainingsEventsById = (trainerID: string) => createSelector(
+    selectAllGroupTrainingEvents,
+    selectAllGroupTrainings,
+    (allEvents, allGroups) => {
+        let filteredGroups = allGroups.filter(group => group.trainerID === trainerID);
+        return allEvents.filter(event => filteredGroups.some(g => g.groupID === event.groupID));
     }
 )
 

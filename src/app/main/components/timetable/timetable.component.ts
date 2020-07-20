@@ -21,10 +21,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
 import * as fromGroupTraining from '../../../store/group-trainings';
 import * as fromPersonalTraining from '../../../store/personal-trainings';
+import * as fromUser from '../../../store/user';
 import { GroupTrainingService } from 'src/app/gym-firebase/services/group-trainings.service';
 import { GroupTrainingEvent } from 'src/app/shared/models/group-training.model';
 import * as moment from 'moment';
 import { PersonalTrainingService } from 'src/app/gym-firebase/services/personal-trainings.service';
+import { Roles } from 'src/app/shared/models/user.models';
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -89,21 +91,44 @@ export class TimetableComponent implements OnInit {
     constructor(private cdr: ChangeDetectorRef, private dialog: MatDialog, private store$: Store, private groupTrainingService: GroupTrainingService, private personalTrainingService: PersonalTrainingService) {}
   
     ngOnInit() {
-      this.store$.pipe(
-        select(fromGroupTraining.selectUserGroupTrainingsEvents)
-      ).subscribe(res => {
-        let rruleEvents = this.groupTrainingService.mapGroupTrainingEventsToRRuleEvents(res)
+      this.store$.pipe(select(fromUser.selectUserRoles)).subscribe(roles => {
         this.events = [];
-        this.events = [...this.groupTrainingService.mapRRuleEventsToCalendarEvents(rruleEvents)];
-        this.cdr.detectChanges();
-        this.refreshData();
-      });
+        if (roles.includes(Roles.USER)) {
+          this.store$.pipe(
+            select(fromGroupTraining.selectUserGroupTrainingsEvents)
+          ).subscribe(res => {
+            let rruleEvents = this.groupTrainingService.mapGroupTrainingEventsToRRuleEvents(res)
+            this.events = [...this.events, ...this.groupTrainingService.mapRRuleEventsToCalendarEvents(rruleEvents)];
+            this.cdr.detectChanges();
+            this.refreshData();
+          });
 
-      this.store$.pipe(
-        select(fromPersonalTraining.selectAcceptedPersonalTrainings)
-      ).subscribe(res => {
-        this.events = [...this.events, ...this.personalTrainingService.mapPersonalEventsToCalendarEvents(res)]
+          this.store$.pipe(
+            select(fromPersonalTraining.selectAcceptedPersonalTrainings)
+          ).subscribe(res => {
+            this.events = [...this.events, ...this.personalTrainingService.mapPersonalEventsToCalendarEvents(res)]
+          })
+        }
+        if (roles.includes(Roles.TRAINER)) {
+          this.store$.pipe(
+            select(fromGroupTraining.selectTrainerGroupTrainingsEvents)
+          ).subscribe(res => {
+            let rruleEvents = this.groupTrainingService.mapGroupTrainingEventsToRRuleEvents(res)
+            this.events = [...this.events, ...this.groupTrainingService.mapRRuleEventsToCalendarEvents(rruleEvents)];
+            this.cdr.detectChanges();
+            this.refreshData();
+          });
+
+          this.store$.pipe(
+            select(fromPersonalTraining.selectAcceptedPersonalTrainings)
+          ).subscribe(res => {
+            this.events = [...this.events, ...this.personalTrainingService.mapPersonalEventsToCalendarEvents(res, true)]
+          })
+        }
+
+
       })
+
     }
   
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
