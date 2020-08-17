@@ -18,3 +18,8 @@ export const saveTrainingRoom = createAction(
     '[TRAINING-ROOM] Save request',
     props<{trainingRoom: TrainingRoom}>()
 )
+
+export const deleteTrainingRoom = createAction(
+    '[TRAINING-ROOM] Delete request',
+    props<{trainingRoom: TrainingRoom}>()
+)

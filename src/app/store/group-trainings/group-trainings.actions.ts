@@ -36,3 +36,8 @@ export const saveGroupTraining = createAction(
     '[GROUP-TRAININGS] Save request',
     props<{groupTraining: GroupTraining}>()
 )
+
+export const deleteGroupTraining = createAction(
+    '[GROUP-TRAININGS] Delete request',
+    props<{groupTraining: GroupTraining}>()
+)

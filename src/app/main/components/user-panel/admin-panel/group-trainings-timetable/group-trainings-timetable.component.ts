@@ -145,7 +145,7 @@ export class GroupTrainingsTimetableComponent {
       if(result) {
 
       } else {
-      this.events = this.events.filter(e => e.title !== event.title);
+      this.events = this.events.filter(e => e.title !== 'Nowe zajęcia');
 
       }
     });
@@ -192,7 +192,7 @@ export class GroupTrainingsTimetableComponent {
   ) {
     const dragToSelectEvent: CalendarEvent = {
       id: this.events.length,
-      title: 'New event',
+      title: 'Nowe zajęcia',
       start: segment.date,
       end: moment(segment.date).add('hour', 1).toDate(),
       draggable: true,

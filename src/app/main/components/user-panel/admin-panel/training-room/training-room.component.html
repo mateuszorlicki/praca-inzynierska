@@ -35,6 +35,18 @@
                 <button *ngIf="!editedRooms.includes(element.roomID)" mat-mini-fab color="accent"  (click)="editTrainingRoom(element)">
                     <mat-icon>create</mat-icon>
                 </button>
+                <div matTooltip="Sala w użyciu, nie można usunąć."
+                [matTooltipDisabled]="(groupsInRoom(element.roomID) | async).length === 0">
+                    <button 
+                        *ngIf="!editedRooms.includes(element.roomID)" 
+                        mat-mini-fab color="warn" 
+                        [disabled]="(groupsInRoom(element.roomID) | async).length > 0"  
+                        (click)="deleteTrainingRoom(element)"
+
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
                 <button *ngIf="editedRooms.includes(element.roomID)" mat-mini-fab color="primary" (click)="saveTrainingRoom(getFormGroupFromArray(i))">
                     <mat-icon>save</mat-icon>
                 </button>

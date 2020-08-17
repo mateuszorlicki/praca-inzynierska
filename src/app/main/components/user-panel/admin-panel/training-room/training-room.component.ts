@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as fromTrainingRoom from '../../../../../store/training-room';
+import * as fromGroupTrainings from '../../../../../store/group-trainings';
 import { Observable } from 'rxjs';
 import { TrainingRoom } from 'src/app/shared/models/training-room.model';
 import { FormBuilder, FormArray, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -21,6 +22,8 @@ export class TrainingRoomComponent implements OnInit {
   roomsForm: FormArray = this.fb.array([]);
 
   displayedColumns: string[] = ['name', 'actions'];
+
+
   constructor(
     private store$: Store,
     private fb: FormBuilder,
@@ -30,6 +33,7 @@ export class TrainingRoomComponent implements OnInit {
   ngOnInit(): void {
     this.store$.pipe(select(fromTrainingRoom.selectAllTrainingRooms)).subscribe(rooms => {
       this.trainingRooms = rooms;
+      this.roomsForm.clear();
       this.trainingRooms.forEach((room, index) => {
         this.roomsForm.insert(index, this.createRoomFormFields(room))
       });
@@ -45,9 +49,7 @@ export class TrainingRoomComponent implements OnInit {
 
   addTrainingRoom() {
     this.newRoom = true;
-    const roomsLength = this.roomsForm.length;
-    this.roomsForm.insert(
-      roomsLength, 
+    this.roomsForm.push(
       this.createRoomFormFields()
     );
   }
@@ -80,5 +82,13 @@ export class TrainingRoomComponent implements OnInit {
 
   getFormGroupFromArray(index: number) {
     return this.roomsForm.at(index) as FormGroup;
+  }
+
+  groupsInRoom(roomID: string) {
+    return this.store$.pipe(select(fromGroupTrainings.selectAllGroupsByRoom(roomID)))
+  }
+
+  deleteTrainingRoom(room: TrainingRoom) {
+    this.store$.dispatch(fromTrainingRoom.deleteTrainingRoom({trainingRoom: room}))
   }
 }

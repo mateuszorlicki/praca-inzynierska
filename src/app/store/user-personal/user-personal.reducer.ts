@@ -1,5 +1,7 @@
 
 import * as userPersonalActions from './user-personal.actions';
+import * as userActions from '../user/user.actions';
+
 import { createReducer, Action, on, createFeatureSelector, Store } from '@ngrx/store';
 import { UserPersonal } from 'src/app/shared/models/user.models';
 
@@ -20,6 +22,9 @@ const userPersonalReducer = createReducer(
             userPersonals
         }
     }),
+    on(userActions.userLoggedOut, (state) => ({
+        ...initialState
+    }))
 );
 
 export function reducer(state: State | undefined, action: Action) {

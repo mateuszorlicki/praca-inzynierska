@@ -1,5 +1,7 @@
 
 import * as passActions from './pass.actions';
+import * as userActions from '../user/user.actions';
+
 import { createReducer, Action, on, createFeatureSelector, Store } from '@ngrx/store';
 import { UserProfile } from 'src/app/shared/models/user.models';
 import { Pass, UserPass } from 'src/app/shared/models/pass.model';
@@ -33,7 +35,10 @@ const passReducer = createReducer(
             userPassesCurrent,
             userPassesPast
         })
-    })
+    }),
+    on(userActions.userLoggedOut, (state) => ({
+        ...initialState
+    }))
 );
 
 export function reducer(state: State | undefined, action: Action) {

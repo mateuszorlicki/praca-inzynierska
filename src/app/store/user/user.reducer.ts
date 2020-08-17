@@ -21,7 +21,7 @@ const userReducer = createReducer(
     initialState,
     on(userActions.getProfileRequest, (state, { uid }) => ({
         ...state,
-        isLoggedIn: true,
+        isLoggedIn: false,
     })),
     on(userActions.getProfileSuccess, (state, { user }) => ({
         ...state,

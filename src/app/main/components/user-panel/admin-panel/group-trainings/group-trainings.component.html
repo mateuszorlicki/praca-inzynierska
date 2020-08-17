@@ -100,6 +100,13 @@
         <mat-icon>create</mat-icon>
       </button>
       </ng-container>
+      <button 
+        *ngIf="!isEdited(element.groupID)" 
+        mat-mini-fab color="warn" 
+        (click)="deleteGroup(element)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
       <button *ngIf="isEdited(element.groupID)" mat-mini-fab color="primary"
         (click)="saveGroupTraining(getFormGroupFromArray(i))">
         <mat-icon>save</mat-icon>
@@ -111,7 +118,7 @@
     </td>
     <td mat-footer-cell *matFooterCellDef>
       <button *ngIf="newGroup" mat-mini-fab color="primary"
-        (click)="saveGroupTraining(getFormGroupFromArray(groupTrainings.length))">
+        (click)="saveNewGroup(getFormGroupFromArray(groupTrainings.length))">
         <mat-icon>save</mat-icon>
       </button>
       <button *ngIf="newGroup" mat-mini-fab color="warn" (click)="cancelAddGroupTraining()">

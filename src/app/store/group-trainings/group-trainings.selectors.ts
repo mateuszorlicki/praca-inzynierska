@@ -74,3 +74,10 @@ export const selectTrainerTraining = (trainerID: string) => createSelector(
         return trainings.filter(training => trainerGroups.some(group => group.groupID === training.groupID))
     }
 )
+
+export const selectAllGroupsByRoom = (roomID: string) => createSelector(
+    selectAllGroupTrainings,
+    (trainings) => {
+        return trainings.filter(training => training.roomID === roomID);
+    }
+)

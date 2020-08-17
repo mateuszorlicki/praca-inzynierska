@@ -31,13 +31,14 @@ export class UserEffects {
                 map(response => 
                 {
                     if (response.additionalUserInfo.isNewUser) {
+                        let isWomen = response.user.displayName.split(' ')[0][response.user.displayName.split(' ')[0].length - 1] === 'a'
                         const newUser: UserProfile = {
                             uid: response.user.uid,
                             displayName: response.user.displayName,
                             firstName: response.user.displayName.split(' ')[0],
                             lastName: response.user.displayName.split(' ')[1],
                             email: response.user.email,
-                            photoURL: 'https://cdn1.iconfinder.com/data/icons/sport-avatar-6/64/29-avatar-fitness-weightlifter-weightlifting-gymnast-sports-gym-512.png',
+                            photoURL: isWomen? 'https://image.flaticon.com/icons/svg/145/145852.svg' : 'https://image.flaticon.com/icons/svg/145/145867.svg',
                             roles: [Roles.USER]
                         }
                         return fromActions.updateProfile({uid: response.user.uid, user: newUser})
@@ -70,7 +71,9 @@ export class UserEffects {
         this.actions$.pipe(
             ofType(fromActions.updateProfile),
             switchMap(({uid, user}) => this.userService.updateProfile(uid, user).pipe(
-                map(() => fromActions.getProfileRequest({uid}))
+                map(() => {
+                    return fromActions.getProfileRequest({uid})
+                })
             ))
     ));
 
@@ -97,20 +100,25 @@ export class UserEffects {
 
     public getProfileRequest$ = createEffect(() => 
         this.actions$.pipe(
-                ofType(fromActions.getProfileRequest),
-                switchMap(({uid}) => this.userService.getUser(uid).pipe(
-                    map((response) => {
-                            return fromActions.getProfileSuccess({user: response})
-                        }
-                    ),
-                    catchError((error) => fromActions.getProfileError)
-                ))
+            ofType(fromActions.getProfileRequest),
+            switchMap(({uid}) => this.userService.getUser(uid).pipe(
+                map((response) => {
+                    if (response) {
+                        return fromActions.getProfileSuccess({user: response})
+                    }
+                    return fromActions.getProfileRequest({uid});
+                    }
+                ),
+                catchError((error) => fromActions.getProfileError)
+            ))
     ));
 
     public getProfileSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(fromActions.getProfileSuccess),
-            map((user) => fromPass.getUserPassesRequest({userID: user.user.uid}))
+            map((user) => {
+                return fromPass.getUserPassesRequest({userID: user.user.uid})
+            })
         )
     );
                 

@@ -38,7 +38,14 @@ export class GroupTrainingEffects {
     public saveGroupTraining$ = createEffect(() =>
         this.actions$.pipe(
             ofType(fromActions.saveGroupTraining),
-            map(({groupTraining}) =>this.groupTrainingService.saveGroupTraining(groupTraining))
+            map(({groupTraining}) => this.groupTrainingService.saveGroupTraining(groupTraining))
+        ), { dispatch: false}
+    );
+
+    public deleteGroupTraining$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(fromActions.deleteGroupTraining),
+            map(({groupTraining}) => this.groupTrainingService.deleteGroupTraining(groupTraining))
         ), { dispatch: false}
     );
 

@@ -30,4 +30,8 @@ export class TrainingRoomService {
       this.afs.collection(this.basePath).add(trainingRoom);
     }
   }
+
+  deleteTrainingRoom(trainingRoom: TrainingRoom) {
+    this.afs.collection(this.basePath).doc(trainingRoom.roomID).delete();
+  }
 }

@@ -25,6 +25,13 @@ export class TrainingRoomEffects {
         ), { dispatch: false}
     );
 
+    public deleteTrainingRoom$ = createEffect(() =>
+    this.actions$.pipe(
+        ofType(fromActions.deleteTrainingRoom),
+        map(({trainingRoom}) =>this.trainingRoomService.deleteTrainingRoom(trainingRoom))
+    ), { dispatch: false}
+);
+
     constructor(
         private actions$: Actions,
         private store$: Store,

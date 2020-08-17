@@ -20,13 +20,14 @@ export class AddEditPassModalComponent implements OnInit {
   passForm: FormGroup
   ngOnChanges(changes: SimpleChanges) {
     if (changes.pass) {
+      let passType = this.pass? (this.pass.isGroupTraining? 1 : (this.pass.isPersonalTraining? 2 : 3)) : 1
        this.passForm = this.fb.group({
         passID: new FormControl(this.pass? this.pass.passID : null, [Validators.required]),
         name: new FormControl(this.pass? this.pass.name : null, [Validators.required]),
         priceNormal: new FormControl(this.pass? this.pass.priceNormal : null, [Validators.required]),
         priceDiscount: new FormControl(this.pass? this.pass.priceDiscount : null, [Validators.required]),
         validityNumber: new FormControl(this.pass? this.pass.validityNumber : null, [Validators.required]),
-        passType: new FormControl(1),
+        passType: new FormControl(passType),
       })
     }
   }

@@ -1,5 +1,7 @@
 
 import * as userTrainingActions from './user-training.actions';
+import * as userActions from '../user/user.actions';
+
 import { createReducer, Action, on, createFeatureSelector, Store } from '@ngrx/store';
 import { UserTraining } from 'src/app/shared/models/user.models';
 
@@ -18,6 +20,9 @@ const userTrainingReducer = createReducer(
         ...state,
         userTrainings
     })),
+    on(userActions.userLoggedOut, (state) => ({
+        ...initialState
+    }))
 );
 
 export function reducer(state: State | undefined, action: Action) {

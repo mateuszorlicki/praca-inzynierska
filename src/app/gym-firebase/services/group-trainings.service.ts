@@ -35,9 +35,36 @@ export class GroupTrainingService {
   saveGroupTraining(groupTraining: GroupTraining) {
     if(groupTraining.groupID) {
       this.afs.collection(this.basePath).doc(groupTraining.groupID).set(groupTraining, {merge: true});
+      this.afs.collection(`${this.basePath}-event`).ref.where('groupID', '==', groupTraining.groupID).get().then((data) => {
+        data.forEach(event => {
+          console.log(event.data());
+          event.ref.set({
+            color: groupTraining.color
+          }, { merge: true})
+        })
+      })
+
     } else {
       this.afs.collection(this.basePath).add(groupTraining);
     }
+  }
+
+  deleteGroupTraining(groupTraining: GroupTraining) {
+    console.log('delete')
+    this.afs.collection(this.basePath).doc(groupTraining.groupID).delete();
+    this.afs.collection(`${this.basePath}-event`).ref.where('groupID', '==', groupTraining.groupID).get().then((data) => {
+      data.forEach(event => {
+        this.afs.collection('/user-trainings').ref.where('trainingsIDs', 'array-contains', event.id).get().then(userTrainings => {
+          userTrainings.forEach(userTraining => {
+            console.log(userTraining.data())
+            userTraining.ref.set({
+              trainingsIDs: userTraining.data().trainingsIDs.filter(id => id !== event.id)
+            }, { merge: true})
+          })
+        })
+        event.ref.delete();
+      })
+    })
   }
 
   saveGroupTrainingEvent(groupTrainingEvent: GroupTrainingEvent) {

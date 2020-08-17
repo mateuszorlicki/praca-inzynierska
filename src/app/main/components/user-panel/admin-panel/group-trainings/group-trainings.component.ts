@@ -46,6 +46,7 @@ export class GroupTrainingsComponent implements OnInit {
   ngOnInit(): void {
     this.store$.pipe(select(fromGroupTrainings.selectAllGroupTrainings)).subscribe(groups => {
       this.groupTrainings = groups;
+      this.groupsForm.clear();
       this.groupTrainings.forEach((group, index) => {
         this.groupsForm.insert(index, this.createGroupFormFields(group))
       });
@@ -99,6 +100,15 @@ export class GroupTrainingsComponent implements OnInit {
     this.newGroup = false;
   }
 
+  saveNewGroup(formGroup: FormGroup) {
+    const group = formGroup.value;
+    this.newGroup = false;
+    this.groupsForm.removeAt(this.groupsForm.length - 1);
+    this.newTrainerAutocomplete.reset();
+    this.newRoomAutocomplete.reset();
+    this.store$.dispatch(fromGroupTrainings.saveGroupTraining({groupTraining: group}))
+  }
+
   saveGroupTraining(formGroup: FormGroup) {
     const group: GroupTraining = formGroup.value;
     this.cancelEditGroupTraining(group);
@@ -107,9 +117,7 @@ export class GroupTrainingsComponent implements OnInit {
 
   addGroupTraining() {
     this.newGroup = true;
-    const groupsLength = this.groupsForm.length;
-    this.groupsForm.insert(
-      groupsLength, 
+    this.groupsForm.push(
       this.createGroupFormFields()
     );
   }
@@ -156,5 +164,9 @@ export class GroupTrainingsComponent implements OnInit {
 
   getEditedGroupByID(groupID: string) {
     return this.editedGroups.find(e => e.groupID === groupID);
+  }
+
+  deleteGroup(group: GroupTraining) {
+    this.store$.dispatch(fromGroupTrainings.deleteGroupTraining({groupTraining: group}))
   }
 }

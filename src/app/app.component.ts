@@ -23,14 +23,19 @@ export class AppComponent {
   constructor(
     private store$: Store,
   ) {
-    this.store$.dispatch(fromUsers.getAllUsersRequest());
-    this.store$.dispatch(fromPass.getAllPassesRequest());
-    this.store$.dispatch(fromTrainingRoom.getAllTrainingRoomsRequest());
-    this.store$.dispatch(fromGroupTrainings.getAllGroupTrainingsRequest());
-    this.store$.dispatch(fromGroupTrainings.getAllGroupTrainingEventRequest());
-    this.store$.dispatch(fromUserGroups.getUserGroupsRequest());
-    this.store$.dispatch(fromUserPersonal.getUserPersonalRequest());
-    this.store$.dispatch(fromPersonalTraining.getAllPersonalTrainingEventRequest());
-
+    this.store$.pipe(
+      select(fromUser.selectIsLoggedIn)
+    ).subscribe(isLogged => {
+      if(isLogged) {
+        this.store$.dispatch(fromUsers.getAllUsersRequest());
+        this.store$.dispatch(fromPass.getAllPassesRequest());
+        this.store$.dispatch(fromTrainingRoom.getAllTrainingRoomsRequest());
+        this.store$.dispatch(fromGroupTrainings.getAllGroupTrainingsRequest());
+        this.store$.dispatch(fromGroupTrainings.getAllGroupTrainingEventRequest());
+        this.store$.dispatch(fromUserGroups.getUserGroupsRequest());
+        this.store$.dispatch(fromUserPersonal.getUserPersonalRequest());
+        this.store$.dispatch(fromPersonalTraining.getAllPersonalTrainingEventRequest());
+      }
+    })
   }
 }

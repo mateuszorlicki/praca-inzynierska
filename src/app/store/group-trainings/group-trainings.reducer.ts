@@ -1,5 +1,7 @@
 
 import * as passActions from './group-trainings.actions';
+import * as userActions from '../user/user.actions';
+
 import { createReducer, Action, on, createFeatureSelector, Store } from '@ngrx/store';
 import { UserPass } from 'src/app/shared/models/pass.model';
 import { GroupTraining, GroupTrainingEvent } from 'src/app/shared/models/group-training.model';
@@ -25,6 +27,9 @@ const groupTrainingReducer = createReducer(
         ...state,
         groupTrainingEvents
     })),
+    on(userActions.userLoggedOut, (state) => ({
+        ...initialState
+    }))
 );
 
 export function reducer(state: State | undefined, action: Action) {
