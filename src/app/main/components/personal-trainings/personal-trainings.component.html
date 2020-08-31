@@ -1,107 +1,113 @@
 <div class="jumbotron">
-    <ng-container *ngIf="(count$ | async) > -1">
-        <mat-card>
-            <mat-card-header class="d-flex flex-column">
-               <h1>Status karnetu</h1> 
-            </mat-card-header>
-            <mat-card-content>
-                <div class="alert alert-danger" *ngIf="(count$ | async) === 0">
-                    <span>
-                        Uwaga! Nie masz żadnych aktywnych karnetów, ktore pozwoliły by zapisać się na zajęcia! Przejdź do zakładki <a [routerLink]="['/price-list']">Cennik</a>, aby kupić odpowiedni karnet na treningi personalne.
-                    </span>
-                </div>
-                <div class="alert alert-light" *ngIf="(count$ | async) > 0">
-                    <span>
-                        Uwaga! Możesz zapisać się jeszcze na <strong>{{count$ | async}}</strong> {{(count$ | async) > 0 && (count$ | async) < 5? 'zajęcia' : 'zajęć'}}. Pamiętaj, że zapisanie na zajęcia zużywa karnet, bądź jego część!
-                    </span>
-                </div>
-            </mat-card-content>
-        </mat-card>
+    <ng-container *ngIf="(isLoggedIn$ | async) === false">
+        <app-need-login></app-need-login>
     </ng-container>
-    <ng-container *ngIf="!userPersonal && (count$ | async) > 0">
-        <mat-card class="mt-4">
-            <mat-card-header class="d-flex flex-column">
-                <h1>Trenerzy</h1>
-                <p>Wygląda na to, że nie wybrałeś jeszcze swojego trenera! Zapoznaj się z naszą <a [routerLink]="['/trainer-team']">kadrą trenerską</a>, a potem wybierz osobę, która pomoże Ci rozwinąć skrzydła na siłowni!</p>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-list role="list">
-                    <mat-list-item *ngFor="let trainer of trainers$ | async" role="listitem">
-                        <div class="d-flex align-items-center justify-content-between w-100">
-                            <div class="trainer-data d-flex align-items-center justify-content-between">
-                                <div class="profile-image">
-                                    <img [src]="trainer.photoURL"/>
+    <ng-container *ngIf="(isLoggedIn$ | async) === true">
+        <ng-container *ngIf="(count$ | async) > -1">
+            <mat-card>
+                <mat-card-header class="d-flex flex-column">
+                   <h1>Status karnetu</h1> 
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="alert alert-danger" *ngIf="(count$ | async) === 0">
+                        <span>
+                            Uwaga! Nie masz żadnych aktywnych karnetów, ktore pozwoliły by zapisać się na zajęcia! Przejdź do zakładki <a [routerLink]="['/price-list']">Cennik</a>, aby kupić odpowiedni karnet na treningi personalne.
+                        </span>
+                    </div>
+                    <div class="alert alert-light" *ngIf="(count$ | async) > 0">
+                        <span>
+                            Uwaga! Możesz zapisać się jeszcze na <strong>{{count$ | async}}</strong> {{(count$ | async) > 0 && (count$ | async) < 5? 'zajęcia' : 'zajęć'}}. Pamiętaj, że zapisanie na zajęcia zużywa karnet, bądź jego część!
+                        </span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+        <ng-container *ngIf="!userPersonal && (count$ | async) > 0">
+            <mat-card class="mt-4">
+                <mat-card-header class="d-flex flex-column">
+                    <h1>Trenerzy</h1>
+                    <p>Wygląda na to, że nie wybrałeś jeszcze swojego trenera! Zapoznaj się z naszą <a [routerLink]="['/trainer-team']">kadrą trenerską</a>, a potem wybierz osobę, która pomoże Ci rozwinąć skrzydła na siłowni!</p>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-list role="list">
+                        <mat-list-item *ngFor="let trainer of trainers$ | async" role="listitem">
+                            <div class="d-flex align-items-center justify-content-between w-100">
+                                <div class="trainer-data d-flex align-items-center justify-content-between">
+                                    <div class="profile-image">
+                                        <img [src]="trainer.photoURL"/>
+                                    </div>
+                                     {{trainer.displayName}}
                                 </div>
-                                 {{trainer.displayName}}
-                            </div>
-                            <div class="trainer-actions">
-                                <button mat-raised-button  color="primary" (click)="setTrainer(trainer.uid)">Wybierz mnie!</button>
-                            </div>
-                        </div>
-                    </mat-list-item>
-                </mat-list>
-            </mat-card-content>
-        </mat-card>
-    </ng-container>
-    <ng-container *ngIf="userPersonal">
-        <mat-card *ngIf="(getTrainer() | async) as trainer">
-            <mat-card-header class="d-flex flex-column">
-                Twoje treningi personalne
-            </mat-card-header>
-            <mat-card-content>                
-                <ng-container *ngIf="(canUserAddPersonal$ | async) === true">
-                    <h4>Dodaj nowy</h4>
-                    <mat-list>
-                        <mat-list-item>
-                            <div class="d-flex align-items-center">
-                                <div class="alert alert-info">
-                                    <app-personal-training-add-card [trainer]="getTrainer() | async" (onSubmit)="saveTraining($event)"></app-personal-training-add-card>
+                                <div class="trainer-actions">
+                                    <button mat-raised-button  color="primary" (click)="setTrainer(trainer.uid)">Wybierz mnie!</button>
                                 </div>
                             </div>
                         </mat-list-item>
                     </mat-list>
-                </ng-container>
-                <ng-container>
-                    <h4>Zaakceptowane</h4>
-                    <mat-list>
-                        <mat-list-item *ngIf="(acceptedTrainings$ | async).length === 0">
-                            <div class="alert alert-success">
-                                <div class="d-flex align-items-center" style="min-width:200px">
-                                    <mat-icon>event_busy</mat-icon>
-                                    Brak treningów
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+        <ng-container *ngIf="userPersonal">
+            <mat-card *ngIf="(getTrainer() | async) as trainer">
+                <mat-card-header class="d-flex flex-column">
+                    Twoje treningi personalne
+                </mat-card-header>
+                <mat-card-content>                
+                    <ng-container *ngIf="(canUserAddPersonal$ | async) === true">
+                        <h4>Dodaj nowy</h4>
+                        <mat-list>
+                            <mat-list-item>
+                                <div class="d-flex align-items-center">
+                                    <div class="alert alert-info">
+                                        <app-personal-training-add-card [trainer]="getTrainer() | async" (onSubmit)="saveTraining($event)"></app-personal-training-add-card>
+                                    </div>
                                 </div>
-                            </div>
-                        </mat-list-item>
-                        <mat-list-item *ngFor="let event of (acceptedTrainings$ | async)">
-                            <div class="d-flex align-items-center">
+                            </mat-list-item>
+                        </mat-list>
+                    </ng-container>
+                    <ng-container>
+                        <h4>Zaakceptowane</h4>
+                        <mat-list>
+                            <mat-list-item *ngIf="(acceptedTrainings$ | async).length === 0">
                                 <div class="alert alert-success">
-                                    <app-personal-training-card [training]="event" [forTrainer]="false"></app-personal-training-card>
+                                    <div class="d-flex align-items-center" style="min-width:200px">
+                                        <mat-icon>event_busy</mat-icon>
+                                        Brak treningów
+                                    </div>
                                 </div>
-                            </div>
-                        </mat-list-item>
-                    </mat-list>
-                </ng-container>
-                <ng-container>
-                    <h4>Oczekujące na akceptację</h4>
-                    <mat-list>
-                        <mat-list-item *ngIf="(notAcceptedTrainings$ | async).length === 0">
-                            <div class="alert alert-warning">
-                                <div class="d-flex align-items-center" style="min-width:200px">
-                                    <mat-icon>event_busy</mat-icon>
-                                    Brak treningów
+                            </mat-list-item>
+                            <mat-list-item *ngFor="let event of (acceptedTrainings$ | async)">
+                                <div class="d-flex align-items-center">
+                                    <div class="alert alert-success">
+                                        <app-personal-training-card [training]="event" [forTrainer]="false"></app-personal-training-card>
+                                    </div>
                                 </div>
-                            </div>
-                        </mat-list-item>
-                        <mat-list-item *ngFor="let event of (notAcceptedTrainings$ | async)">
-                            <div class="d-flex align-items-center">
+                            </mat-list-item>
+                        </mat-list>
+                    </ng-container>
+                    <ng-container>
+                        <h4>Oczekujące na akceptację</h4>
+                        <mat-list>
+                            <mat-list-item *ngIf="(notAcceptedTrainings$ | async).length === 0">
                                 <div class="alert alert-warning">
-                                    <app-personal-training-card [training]="event" [forTrainer]="false"></app-personal-training-card>
+                                    <div class="d-flex align-items-center" style="min-width:200px">
+                                        <mat-icon>event_busy</mat-icon>
+                                        Brak treningów
+                                    </div>
                                 </div>
-                            </div>
-                        </mat-list-item>
-                    </mat-list>
-                </ng-container>
-            </mat-card-content>
-        </mat-card>
+                            </mat-list-item>
+                            <mat-list-item *ngFor="let event of (notAcceptedTrainings$ | async)">
+                                <div class="d-flex align-items-center">
+                                    <div class="alert alert-warning">
+                                        <app-personal-training-card [training]="event" [forTrainer]="false"></app-personal-training-card>
+                                    </div>
+                                </div>
+                            </mat-list-item>
+                        </mat-list>
+                    </ng-container>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
     </ng-container>
+
 </div>

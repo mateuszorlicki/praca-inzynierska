@@ -5,6 +5,7 @@ import * as fromUsers from '../../../store/users';
 import * as fromPersonal from '../../../store/user-personal';
 import * as fromPersonalTraining from '../../../store/personal-trainings';
 import * as moment from 'moment';
+import * as fromUser from '../../../store/user';
 
 import { select, Store } from '@ngrx/store';
 import { tap, first } from 'rxjs/operators';
@@ -28,6 +29,7 @@ export class PersonalTrainingsComponent implements OnInit {
   notAcceptedTrainings$: Observable<Array<PersonalTrainingEvent>> = this.store$.pipe(select(fromPersonalTraining.selectNotAcceptedPersonalTrainings));
   
   canUserAddPersonal$: Observable<boolean> = this.store$.pipe(select(fromPersonalTraining.selectCanUserAddPersonal));
+  isLoggedIn$ = this.store$.pipe(select(fromUser.selectIsLoggedIn))
   
   newPersonalForm: FormGroup = this.fb.group({
     dateStart: new FormControl(null, [Validators.required]),

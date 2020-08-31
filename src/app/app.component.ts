@@ -36,6 +36,11 @@ export class AppComponent {
         this.store$.dispatch(fromUserPersonal.getUserPersonalRequest());
         this.store$.dispatch(fromPersonalTraining.getAllPersonalTrainingEventRequest());
       }
+      if (!isLogged) {
+        this.store$.dispatch(fromUsers.getAllUsersRequest());
+        this.store$.dispatch(fromPass.getAllPassesRequest());
+        this.store$.dispatch(fromGroupTrainings.getAllGroupTrainingEventRequest());
+      }
     })
   }
 }

@@ -23,9 +23,9 @@ const routes: Routes = [
     { path: '', component: TrainerTeamComponent},
     { path: ':id', component: TrainerProfileComponent}
   ]},
-  { path: 'personal-trainings-trainer', component: PersonalTrainingsTrainerComponent, canActivate: [AuthGuard]},
-  { path: 'personal-trainings', component: PersonalTrainingsComponent, canActivate: [AuthGuard]},
-  { path: 'training-courses-trainer', component: TrainingCoursesTrainerComponent, canActivate: [AuthGuard]},
+  { path: 'personal-trainings-trainer', component: PersonalTrainingsTrainerComponent},
+  { path: 'personal-trainings', component: PersonalTrainingsComponent},
+  { path: 'training-courses-trainer', component: TrainingCoursesTrainerComponent},
   { path: 'training-courses', component: TrainingCoursesComponent},
   { path: 'timetable', component: TimetableComponent},
   { path: 'price-list', component: PriceListComponent},
