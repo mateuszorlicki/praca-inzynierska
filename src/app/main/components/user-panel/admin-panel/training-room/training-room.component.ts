@@ -42,7 +42,7 @@ export class TrainingRoomComponent implements OnInit {
 
   createRoomFormFields(room?: TrainingRoom) {
     return new FormGroup({
-      roomID: new FormControl(room? room.roomID : null, [Validators.required]),
+      roomID: new FormControl(room? room.roomID : null),
       name: new FormControl(room? room.name : null, [Validators.required])
     });
   }
@@ -55,10 +55,12 @@ export class TrainingRoomComponent implements OnInit {
   }
 
   saveNewRoom(formGroup: FormGroup) {
-    const room = formGroup.value;
-    this.newRoom = false;
-    this.roomsForm.removeAt(this.roomsForm.length - 1);
-    this.store$.dispatch(fromTrainingRoom.saveTrainingRoom({trainingRoom: room}))
+    if (formGroup.valid) {
+      const room = formGroup.value;
+      this.newRoom = false;
+      this.roomsForm.removeAt(this.roomsForm.length - 1);
+      this.store$.dispatch(fromTrainingRoom.saveTrainingRoom({trainingRoom: room}))
+    }
   }
 
   editTrainingRoom(room: TrainingRoom) {
@@ -75,9 +77,11 @@ export class TrainingRoomComponent implements OnInit {
   }
 
   saveTrainingRoom(formGroup: FormGroup) {
-    const room = formGroup.value;
-    this.cancelEditTrainingRoom(room);
-    this.store$.dispatch(fromTrainingRoom.saveTrainingRoom({trainingRoom: room}))
+    if (formGroup.valid) {
+      const room = formGroup.value;
+      this.cancelEditTrainingRoom(room);
+      this.store$.dispatch(fromTrainingRoom.saveTrainingRoom({trainingRoom: room}))
+    }
   }
 
   getFormGroupFromArray(index: number) {

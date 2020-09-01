@@ -83,11 +83,11 @@ export class GroupTrainingsComponent implements OnInit {
 
   createGroupFormFields(group?: GroupTraining) {
     return new FormGroup({
-      groupID: new FormControl(group? group.groupID : null, [Validators.required]),
+      groupID: new FormControl(group? group.groupID : null),
       trainerID: new FormControl(group? group.trainerID : null, [Validators.required]),
       roomID: new FormControl(group? group.roomID : null, [Validators.required]),
       name: new FormControl(group? group.name : null, [Validators.required]),
-      color: new FormControl(group? group.color : null)
+      color: new FormControl(group? group.color : null, [Validators.required])
     });
   }
 
@@ -97,22 +97,32 @@ export class GroupTrainingsComponent implements OnInit {
 
   cancelAddGroupTraining() {
     this.groupsForm.removeAt(this.groupsForm.length - 1);
+    this.newTrainerAutocomplete.reset();
+    this.newRoomAutocomplete.reset();
     this.newGroup = false;
   }
 
   saveNewGroup(formGroup: FormGroup) {
-    const group = formGroup.value;
-    this.newGroup = false;
-    this.groupsForm.removeAt(this.groupsForm.length - 1);
-    this.newTrainerAutocomplete.reset();
-    this.newRoomAutocomplete.reset();
-    this.store$.dispatch(fromGroupTrainings.saveGroupTraining({groupTraining: group}))
+    if (formGroup.valid) {
+      const group = formGroup.value;
+      this.newGroup = false;
+      this.groupsForm.removeAt(this.groupsForm.length - 1);
+      this.newTrainerAutocomplete.reset();
+      this.newRoomAutocomplete.reset();
+      this.store$.dispatch(fromGroupTrainings.saveGroupTraining({groupTraining: group}))
+    } else {
+      console.log('Cannot save')
+    }
   }
 
   saveGroupTraining(formGroup: FormGroup) {
-    const group: GroupTraining = formGroup.value;
-    this.cancelEditGroupTraining(group);
-    this.store$.dispatch(fromGroupTrainings.saveGroupTraining({groupTraining: group}))
+    if (formGroup.valid) {
+      const group: GroupTraining = formGroup.value;
+      this.cancelEditGroupTraining(group);
+      this.store$.dispatch(fromGroupTrainings.saveGroupTraining({groupTraining: group}))
+    } else {
+      console.log('Cannot save')
+    }
   }
 
   addGroupTraining() {
