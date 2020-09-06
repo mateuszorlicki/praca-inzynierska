@@ -5,7 +5,8 @@
           <div [ngSwitch]="view" class="dark-theme">
             <mwl-calendar-week-view
               *ngSwitchCase="CalendarView.Week"
-              [weekStartsOn]="1"
+              [excludeDays]="[0]"
+              [weekStartsOn]="0"
               [viewDate]="viewDate"
               [locale]="'pl'"
               [events]="events"

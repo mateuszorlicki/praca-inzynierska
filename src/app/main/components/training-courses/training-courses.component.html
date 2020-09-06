@@ -68,6 +68,8 @@
                 <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [weekStartsOn]="1" [viewDate]="viewDate"
                     [locale]="'pl'" [events]="events" [refresh]="refresh" [dayStartHour]="6" [dayEndHour]="21"
                     [hourSegments]="1" [eventSnapSize]="50" [hourSegmentHeight]="50"
+                    [excludeDays]="[0]"
+                    [weekStartsOn]="0"
                     [hourSegmentTemplate]="weekViewHourSegmentTemplate" [headerTemplate]="headerTemplate">
                 </mwl-calendar-week-view>
             </div>

@@ -67,6 +67,8 @@
             <mwl-calendar-month-view
               *ngSwitchCase="CalendarView.Month"
               [viewDate]="viewDate"
+              [excludeDays]="[0]"
+              [weekStartsOn]="0"
               [locale]="'pl'"
               [events]="events"
               [refresh]="refresh"
@@ -79,6 +81,8 @@
             <mwl-calendar-week-view
               *ngSwitchCase="CalendarView.Week"
               [viewDate]="viewDate"
+              [excludeDays]="[0]"
+              [weekStartsOn]="0"
               [locale]="'pl'"
               [events]="events"
               [refresh]="refresh"

@@ -66,6 +66,18 @@ export class GroupTrainingService {
       })
     })
   }
+  
+  deleteGroupTrainingEvent(eventID: string) {
+    this.afs.collection(`${this.basePath}-event`).doc(eventID).delete();
+    this.afs.collection('/user-trainings').ref.where('trainingsIDs', 'array-contains', eventID).get().then(userTrainings => {
+      userTrainings.forEach(userTraining => {
+        console.log(userTraining.data())
+        userTraining.ref.set({
+          trainingsIDs: userTraining.data().trainingsIDs.filter(id => id !== eventID)
+        }, { merge: true})
+      })
+    })
+  }
 
   saveGroupTrainingEvent(groupTrainingEvent: GroupTrainingEvent) {
     if(groupTrainingEvent.eventID) {

@@ -45,5 +45,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Anuluj</button>
+    <button *ngIf="!!data.event.meta.eventID" mat-button color="warn" (click)="deleteEvent()">Usuń</button>
     <button mat-button (click)="eventForm.valid? saveEvent() : {}">Zapisz</button>
 </mat-dialog-actions>

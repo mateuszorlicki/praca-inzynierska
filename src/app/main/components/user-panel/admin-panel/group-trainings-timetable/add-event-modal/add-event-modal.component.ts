@@ -31,7 +31,7 @@ export class AddEventModalComponent implements OnInit {
 
   eventForm: FormGroup
 
-
+  originalEvent
 
   constructor(private dialog: MatDialog, private store$: Store, private fb: FormBuilder, private groupTrainingService: GroupTrainingService, @Inject(MAT_DIALOG_DATA) public data: {event: CalendarEvent}) { }
 
@@ -97,6 +97,12 @@ export class AddEventModalComponent implements OnInit {
       
     } else {
     }
+
+  }
+
+  deleteEvent() {
+    this.groupTrainingService.deleteGroupTrainingEvent(this.data.event.meta.eventID);
+    this.dialog.closeAll();
 
   }
 
